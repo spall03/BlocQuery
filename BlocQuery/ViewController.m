@@ -8,8 +8,9 @@
 
 #import "ViewController.h"
 #import <Parse/Parse.h>
+#import "ParseUI.h"
 
-@interface ViewController ()
+@interface ViewController () <PFLogInViewControllerDelegate>
 
 @end
 
@@ -23,6 +24,16 @@
     [testObject saveInBackground];
     
     
+    
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    
+    PFLogInViewController *loginController =[[PFLogInViewController alloc]init];
+    loginController.delegate = self;
+    [self presentViewController:loginController animated:YES completion:nil];
     
 }
 
