@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "BQUser.h"
 
 
 @interface AppDelegate ()
@@ -20,6 +21,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [Parse enableLocalDatastore];
+    
+    [BQUser registerSubclass];
+    
     
     // Initialize Parse.
     [Parse setApplicationId:@"M1ZYcrIoDrykxD2p7GqRsCAHG280O9EMiOJi6MLH"
