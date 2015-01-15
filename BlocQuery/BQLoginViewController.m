@@ -19,8 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // FIXME: Use [[NSBundle mainBundle] pathForResource:ofType:]
-    UIImage *logoImage = [UIImage imageWithContentsOfFile:@"/Users/spall/Desktop/Bloc/iOS/BlocQuery/BlocQuery/BQLogo.png"];
+    UIImage *logoImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BQLogo" ofType:@".png"]];
     UIImageView *BQLogo = [[UIImageView alloc] initWithImage:logoImage];
 
     //set up our custom BQ logo
