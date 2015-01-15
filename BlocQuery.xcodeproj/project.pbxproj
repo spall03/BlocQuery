@@ -32,6 +32,8 @@
 		C6D142601A67448600AF2E05 /* BQLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D1425F1A67448600AF2E05 /* BQLogo.png */; };
 		C6D142631A67467200AF2E05 /* BQSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D142621A67467200AF2E05 /* BQSignupViewController.m */; };
 		C6D142651A674BED00AF2E05 /* signup.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D142641A674BED00AF2E05 /* signup.png */; };
+		C6D142681A68680100AF2E05 /* BQQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D142671A68680100AF2E05 /* BQQuestion.m */; };
+		C6D1426B1A686D8600AF2E05 /* BQAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D1426A1A686D8600AF2E05 /* BQAnswer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,10 @@
 		C6D142611A67467200AF2E05 /* BQSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQSignupViewController.h; sourceTree = "<group>"; };
 		C6D142621A67467200AF2E05 /* BQSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQSignupViewController.m; sourceTree = "<group>"; };
 		C6D142641A674BED00AF2E05 /* signup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = signup.png; sourceTree = "<group>"; };
+		C6D142661A68680100AF2E05 /* BQQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQQuestion.h; sourceTree = "<group>"; };
+		C6D142671A68680100AF2E05 /* BQQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQQuestion.m; sourceTree = "<group>"; };
+		C6D142691A686D8600AF2E05 /* BQAnswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAnswer.h; sourceTree = "<group>"; };
+		C6D1426A1A686D8600AF2E05 /* BQAnswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAnswer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +140,10 @@
 			children = (
 				C68E3B831A65C57500D0D4B5 /* BQUser.h */,
 				C68E3B841A65C57500D0D4B5 /* BQUser.m */,
+				C6D142661A68680100AF2E05 /* BQQuestion.h */,
+				C6D142671A68680100AF2E05 /* BQQuestion.m */,
+				C6D142691A686D8600AF2E05 /* BQAnswer.h */,
+				C6D1426A1A686D8600AF2E05 /* BQAnswer.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -373,12 +383,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6D1426B1A686D8600AF2E05 /* BQAnswer.m in Sources */,
 				C6C1A2AB1A647A2E0094AF29 /* ViewController.m in Sources */,
 				C6D142631A67467200AF2E05 /* BQSignupViewController.m in Sources */,
 				C68E3B851A65C57500D0D4B5 /* BQUser.m in Sources */,
 				C6C1A2A81A647A2E0094AF29 /* AppDelegate.m in Sources */,
 				C6C1A2A51A647A2E0094AF29 /* main.m in Sources */,
 				C6D1425E1A673DBE00AF2E05 /* BQLoginViewController.m in Sources */,
+				C6D142681A68680100AF2E05 /* BQQuestion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

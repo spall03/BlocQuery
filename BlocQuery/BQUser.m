@@ -18,6 +18,10 @@
 @dynamic userDescription;
 @dynamic userImage;
 
-
++ (void)load {
+    
+    [self registerSubclass];
+    
+}
 
 @end

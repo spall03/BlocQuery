@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import <Parse/Parse.h>
 #import "BQUser.h"
+#import "BQQuestion.h"
+#import "BQAnswer.h"
 #import "BQLoginViewController.h"
 #import "BQSignupViewController.h"
 
@@ -21,6 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+//    ***Test code for Account Creation
+    
 //    UIImage *myImage = [[UIImage alloc]initWithContentsOfFile:@"/Users/spall/Desktop/Bloc/iOS/BlocQuery/BlocQuery/seal.png"];
 //    NSData *myData = UIImagePNGRepresentation(myImage);
 //    PFFile *myFile = [PFFile fileWithData:myData];
@@ -31,6 +36,22 @@
 //    testUser.username = @"Tester Extraordinaire";
 //    testUser.password = @"password";
 //    [testUser signUpInBackground];
+    
+//    **Test code for Question Creation
+    
+//    BQQuestion *testQ = [BQQuestion object];
+//    testQ.questionText = @"This is a test question.";
+//    [testQ saveInBackground];
+    
+//    **Test scode for Answer Creation
+    
+//    BQAnswer *testA = [BQAnswer object];
+//    testA.answerText = @"This is a test answer.";
+//    testA.votes = 10;
+//    [testA saveInBackground];
+
+    
+    
     
 }
 
