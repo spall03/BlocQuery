@@ -8,12 +8,11 @@
 
 #import "ViewController.h"
 #import <Parse/Parse.h>
-#import "ParseUI.h"
 #import "BQUser.h"
 #import "BQLoginViewController.h"
 #import "BQSignupViewController.h"
 
-@interface ViewController () <PFLogInViewControllerDelegate>
+@interface ViewController ()
 
 @end
 
@@ -37,11 +36,10 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    
-    BQLoginViewController *loginController =[[BQLoginViewController alloc]init];
+    BQLoginViewController *loginController = [[BQLoginViewController alloc] init];
     loginController.delegate = self;
     
-    BQSignupViewController *signupController = [[BQSignupViewController alloc]init];
+    BQSignupViewController *signupController = [[BQSignupViewController alloc] init];
     [signupController setFields:PFSignUpFieldsDefault | PFSignUpFieldsAdditional];
     [signupController setDelegate:self]; //not sure why it doesn't like this...?
     

@@ -7,7 +7,6 @@
 //
 
 #import "PFLogInViewController.h"
-#import <Parse/Parse.h>
 
 @interface BQLoginViewController : PFLogInViewController
 
