@@ -152,17 +152,6 @@
 		C6C1A2961A647A2E0094AF29 = {
 			isa = PBXGroup;
 			children = (
-				C6C1A2E01A647E5F0094AF29 /* libsqlite3.dylib */,
-				C6C1A2DE1A647E540094AF29 /* libz.dylib */,
-				C6C1A2DC1A647E3E0094AF29 /* SystemConfiguration.framework */,
-				C6C1A2DA1A647E340094AF29 /* StoreKit.framework */,
-				C6C1A2D81A647E240094AF29 /* Security.framework */,
-				C6C1A2D61A647E1D0094AF29 /* QuartzCore.framework */,
-				C6C1A2D41A647E160094AF29 /* MobileCoreServices.framework */,
-				C6C1A2D21A647E0E0094AF29 /* CoreLocation.framework */,
-				C6C1A2D01A647E020094AF29 /* CoreGraphics.framework */,
-				C6C1A2CE1A647DF90094AF29 /* CFNetwork.framework */,
-				C6C1A2CC1A647DF00094AF29 /* AudioToolbox.framework */,
 				C6C1A2A11A647A2E0094AF29 /* BlocQuery */,
 				C6C1A2BB1A647A2E0094AF29 /* BlocQueryTests */,
 				C6C1A2A01A647A2E0094AF29 /* Products */,
@@ -230,6 +219,17 @@
 		CF7584C7D87081827FADFC60 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C6C1A2E01A647E5F0094AF29 /* libsqlite3.dylib */,
+				C6C1A2DE1A647E540094AF29 /* libz.dylib */,
+				C6C1A2DC1A647E3E0094AF29 /* SystemConfiguration.framework */,
+				C6C1A2DA1A647E340094AF29 /* StoreKit.framework */,
+				C6C1A2D81A647E240094AF29 /* Security.framework */,
+				C6C1A2D61A647E1D0094AF29 /* QuartzCore.framework */,
+				C6C1A2D41A647E160094AF29 /* MobileCoreServices.framework */,
+				C6C1A2D21A647E0E0094AF29 /* CoreLocation.framework */,
+				C6C1A2D01A647E020094AF29 /* CoreGraphics.framework */,
+				C6C1A2CE1A647DF90094AF29 /* CFNetwork.framework */,
+				C6C1A2CC1A647DF00094AF29 /* AudioToolbox.framework */,
 				49864A83E0922D1EA3105D93 /* libPods.a */,
 			);
 			name = Frameworks;

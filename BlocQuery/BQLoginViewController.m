@@ -8,6 +8,7 @@
 
 #import "BQLoginViewController.h"
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface BQLoginViewController ()
 
@@ -18,9 +19,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-
+    // FIXME: Use [[NSBundle mainBundle] pathForResource:ofType:]
     UIImage *logoImage = [UIImage imageWithContentsOfFile:@"/Users/spall/Desktop/Bloc/iOS/BlocQuery/BlocQuery/BQLogo.png"];
-    UIImageView *BQLogo = [[UIImageView alloc]initWithImage:logoImage];
+    UIImageView *BQLogo = [[UIImageView alloc] initWithImage:logoImage];
 
     //set up our custom BQ logo
     [self.logInView setBackgroundColor:[UIColor whiteColor]];

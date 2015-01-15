@@ -17,8 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // FIXME: Use [[NSBundle mainBundle] pathForResource:ofType:]
     UIImage *logoImage = [UIImage imageWithContentsOfFile:@"/Users/spall/Desktop/Bloc/iOS/BlocQuery/BlocQuery/signup.png"];
-    UIImageView *signupLogo = [[UIImageView alloc]initWithImage:logoImage];
+    UIImageView *signupLogo = [[UIImageView alloc] initWithImage:logoImage];
     
     //enable user description field at signup
     [self.signUpView.additionalField setPlaceholder:@"Describe yourself"];
