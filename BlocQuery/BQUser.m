@@ -32,7 +32,7 @@
 {
     BQQuestion* newQuestion = [BQQuestion object];
     
-    newQuestion.user = self; //This user asked the question
+    newQuestion.user = self.username; //This user asked the question
     newQuestion.questionText = question;
     newQuestion.answers = nil; //no answers to the question yet
     newQuestion.answerCount = 0;
@@ -45,7 +45,7 @@
 {
     BQAnswer* newAnswer = [BQAnswer object];
     
-    newAnswer.user = self; //This user provided the answer
+    newAnswer.user = self.username; //This user provided the answer
     newAnswer.answerText = answer;
     newAnswer.question = thisQuestion;
     newAnswer.votes = 0; //no votes yet

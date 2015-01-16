@@ -52,16 +52,16 @@
 
 //    **Test code for User methods to create and answer questions, and to vote for answers
     
-    BQUser *test1 = [BQUser object];
-    test1.username = @"Woodrow Wilson";
-    test1.password = @"password";
-    
-    BQQuestion *q1 = [test1 addNewQuestion:@"What the hell is going on here?"];
-    BQAnswer *a1 = [test1 addNewAnswer:@"We're testing a bunch of stuff." toQuestion:q1];
-    
-    [test1 saveInBackground];
-    [q1 saveInBackground];
-    [a1 saveInBackground];
+//    BQUser *test1 = [BQUser object];
+//    test1.username = @"Theodore Roosevelt";
+//    test1.password = @"password";
+//    test1.userDescription = @"yada yada yada";
+//    [test1 signUpInBackground];
+//    
+//    BQQuestion *q1 = [test1 addNewQuestion:@"What the hell is going on here?"];
+//    [q1 save];
+//    BQAnswer *a1 = [test1 addNewAnswer:@"We're testing a bunch of stuff." toQuestion:q1];
+//    [a1 save];
     
     
 }

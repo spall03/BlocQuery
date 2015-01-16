@@ -7,13 +7,12 @@
 //
 
 #import <Parse/Parse.h>
-#import "BQUser.h"
 
-//@class BQUser;
+@class BQUser;
 
 @interface BQQuestion : PFObject<PFSubclassing>
 
-@property (retain) BQUser *user;
+@property (retain) NSString *user;
 @property (retain) NSString *questionText;
 @property (retain) NSArray *answers;
 @property int answerCount;
