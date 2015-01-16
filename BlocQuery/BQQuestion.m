@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Steve Palley. All rights reserved.
 //
 
-#import "BQQuestion.h"
 #import <Parse/PFObject+Subclass.h>
+#import "BQQuestion.h"
 
 @interface BQQuestion ()
 

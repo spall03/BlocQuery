@@ -9,6 +9,8 @@
 #import <Parse/Parse.h>
 #import "BQUser.h"
 
+//@class BQUser;
+
 @interface BQQuestion : PFObject<PFSubclassing>
 
 @property (retain) BQUser *user;

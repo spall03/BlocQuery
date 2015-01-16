@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Steve Palley. All rights reserved.
 //
 
-#import "BQAnswer.h"
 #import <Parse/PFObject+Subclass.h>
+#import "BQAnswer.h"
 
 @interface BQAnswer ()
 
@@ -16,6 +16,7 @@
 @implementation BQAnswer
 
 @dynamic user;
+@dynamic question;
 @dynamic answerText;
 @dynamic votes;
 

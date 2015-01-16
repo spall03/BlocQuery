@@ -43,14 +43,25 @@
 //    testQ.questionText = @"This is a test question.";
 //    [testQ saveInBackground];
     
-//    **Test scode for Answer Creation
+//    **Test code for Answer Creation
     
 //    BQAnswer *testA = [BQAnswer object];
 //    testA.answerText = @"This is a test answer.";
 //    testA.votes = 10;
 //    [testA saveInBackground];
 
+//    **Test code for User methods to create and answer questions, and to vote for answers
     
+    BQUser *test1 = [BQUser object];
+    test1.username = @"Woodrow Wilson";
+    test1.password = @"password";
+    
+    BQQuestion *q1 = [test1 addNewQuestion:@"What the hell is going on here?"];
+    BQAnswer *a1 = [test1 addNewAnswer:@"We're testing a bunch of stuff." toQuestion:q1];
+    
+    [test1 saveInBackground];
+    [q1 saveInBackground];
+    [a1 saveInBackground];
     
     
 }
