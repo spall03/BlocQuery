@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIImage *logoImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BQLogo" ofType:@".png"]];
+    UIImage *logoImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BQLogo" ofType:@"png"]];
     UIImageView *BQLogo = [[UIImageView alloc] initWithImage:logoImage];
 
     //set up our custom BQ logo

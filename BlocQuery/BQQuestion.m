@@ -21,17 +21,15 @@
 @dynamic answerCount;
 
 
-+ (void)load {
++ (void)load
+{
     
     [self registerSubclass];
-    
 }
 
-+ (NSString *) parseClassName
++ (NSString *)parseClassName
 {
-
     return @"BQQuestion";
-    
 }
 
 @end

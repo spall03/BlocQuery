@@ -21,14 +21,15 @@
 @dynamic userDescription;
 @dynamic userImage;
 
-+ (void)load {
++ (void)load
+{
     
     [self registerSubclass];
     
 }
 
 //This user adds a new question.
-- (BQQuestion*) addNewQuestion:(NSString *) question
+- (BQQuestion*)addNewQuestion:(NSString *)question
 {
     BQQuestion* newQuestion = [BQQuestion object];
     
@@ -41,7 +42,7 @@
 }
 
 //This user adds a new answer to this question.
-- (BQAnswer*) addNewAnswer:(NSString *) answer toQuestion:(BQQuestion *) thisQuestion
+- (BQAnswer*)addNewAnswer:(NSString *)answer toQuestion:(BQQuestion *)thisQuestion
 {
     BQAnswer* newAnswer = [BQAnswer object];
     
@@ -54,7 +55,7 @@
 }
 
 //This user increments this answer's vote count.
-- (void) likeAnswer:(BQAnswer *) answer
+- (void)likeAnswer:(BQAnswer *)answer
 {
     answer.votes++;
 }

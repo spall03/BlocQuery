@@ -26,7 +26,7 @@
     
 }
 
-+ (NSString *) parseClassName
++ (NSString *)parseClassName
 {
     
     return @"BQAnswer";

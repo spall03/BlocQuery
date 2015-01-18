@@ -11,13 +11,13 @@
 @class BQUser;
 @class BQQuestion;
 
-@interface BQAnswer : PFObject<PFSubclassing>
+@interface BQAnswer : PFObject <PFSubclassing>
 
 @property (retain) NSString *user;
 @property (retain) BQQuestion *question;
 @property (retain) NSString *answerText;
 @property int votes;
 
- + (NSString *)parseClassName;
++ (NSString *)parseClassName;
 
 @end
