@@ -23,7 +23,6 @@
 
 + (void)load
 {
-    
     [self registerSubclass];
 }
 
