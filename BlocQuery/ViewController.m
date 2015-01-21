@@ -13,6 +13,7 @@
 #import "BQAnswer.h"
 #import "BQLoginViewController.h"
 #import "BQSignupViewController.h"
+#import "BQQuestionTableViewController.h"
 
 @interface ViewController ()
 
@@ -41,6 +42,7 @@
     
 //    BQQuestion *testQ = [BQQuestion object];
 //    testQ.questionText = @"This is a test question.";
+//    testQ.answerCount = 7;
 //    [testQ saveInBackground];
     
 //    **Test code for Answer Creation
@@ -64,6 +66,7 @@
 //    [a1 save];
     
     
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -77,7 +80,9 @@
     
     [loginController setSignUpController:signupController];
     
-    [self presentViewController:loginController animated:YES completion:nil];
+    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc]init];
+    
+    [self presentViewController:questionTableVC animated:YES completion:nil];
     
 }
 

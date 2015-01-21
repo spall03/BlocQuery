@@ -34,6 +34,7 @@
 		C6D142651A674BED00AF2E05 /* signup.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D142641A674BED00AF2E05 /* signup.png */; };
 		C6D142681A68680100AF2E05 /* BQQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D142671A68680100AF2E05 /* BQQuestion.m */; };
 		C6D1426B1A686D8600AF2E05 /* BQAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D1426A1A686D8600AF2E05 /* BQAnswer.m */; };
+		C6D671351A6F2E1C00446B34 /* BQQuestionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,8 @@
 		C6D142671A68680100AF2E05 /* BQQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQQuestion.m; sourceTree = "<group>"; };
 		C6D142691A686D8600AF2E05 /* BQAnswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAnswer.h; sourceTree = "<group>"; };
 		C6D1426A1A686D8600AF2E05 /* BQAnswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAnswer.m; sourceTree = "<group>"; };
+		C6D671331A6F2E1C00446B34 /* BQQuestionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQQuestionTableViewController.h; sourceTree = "<group>"; };
+		C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQQuestionTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +158,8 @@
 				C6D1425D1A673DBE00AF2E05 /* BQLoginViewController.m */,
 				C6D142611A67467200AF2E05 /* BQSignupViewController.h */,
 				C6D142621A67467200AF2E05 /* BQSignupViewController.m */,
+				C6D671331A6F2E1C00446B34 /* BQQuestionTableViewController.h */,
+				C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -386,6 +391,7 @@
 				C6D1426B1A686D8600AF2E05 /* BQAnswer.m in Sources */,
 				C6C1A2AB1A647A2E0094AF29 /* ViewController.m in Sources */,
 				C6D142631A67467200AF2E05 /* BQSignupViewController.m in Sources */,
+				C6D671351A6F2E1C00446B34 /* BQQuestionTableViewController.m in Sources */,
 				C68E3B851A65C57500D0D4B5 /* BQUser.m in Sources */,
 				C6C1A2A81A647A2E0094AF29 /* AppDelegate.m in Sources */,
 				C6C1A2A51A647A2E0094AF29 /* main.m in Sources */,

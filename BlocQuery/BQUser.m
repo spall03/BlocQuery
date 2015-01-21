@@ -50,6 +50,8 @@
     newAnswer.question = thisQuestion;
     newAnswer.votes = 0; //no votes yet
     
+    thisQuestion.answerCount++; //increment number of answers to this question. don't think this will work, though...???
+    
     return newAnswer;
 }
 
