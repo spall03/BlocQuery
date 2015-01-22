@@ -22,8 +22,6 @@
     
     [Parse enableLocalDatastore];
     
-    [BQUser registerSubclass];
-    
     
     // Initialize Parse.
     [Parse setApplicationId:@"M1ZYcrIoDrykxD2p7GqRsCAHG280O9EMiOJi6MLH"
