@@ -7,7 +7,10 @@
 //
 
 #import "PFQueryTableViewController.h"
+#import "BQQuestion.h"
 
 @interface BQAnswerTableViewController : PFQueryTableViewController
+
+@property (nonatomic, strong) BQQuestion *question; //the question we're going to pull answers in for
 
 @end
