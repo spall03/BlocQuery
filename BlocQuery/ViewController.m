@@ -91,4 +91,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+// TODO: For us to push the new table view controller onto the stack after login we'll need to implement things like:
+// - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user;
+// and
+// - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+
 @end

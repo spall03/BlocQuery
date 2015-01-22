@@ -16,9 +16,11 @@
 
 @implementation BQQuestionTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style {
+- (id)initWithStyle:(UITableViewStyle)style
+{
     self = [super initWithStyle:style];
-    if (self) {
+    if ( self )
+    {
         // Custom the table
         
         // The className to query on
@@ -42,7 +44,8 @@
     return self;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
@@ -52,7 +55,8 @@
 
 #pragma mark - UIViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -68,6 +72,9 @@
     // e.g. self.myOutlet = nil;
 }
 
+/////////////////////////////////////////////////////////
+// TODO: If we don't do anything but just call [super ...] with any of these we should just delete them...
+/////////////////////////////////////////////////////////
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
@@ -92,13 +99,15 @@
 
 #pragma mark - PFQueryTableViewController
 
-- (void)objectsWillLoad {
+- (void)objectsWillLoad
+{
     [super objectsWillLoad];
     
     // This method is called before a PFQuery is fired to get more objects
 }
 
-- (void)objectsDidLoad:(NSError *)error {
+- (void)objectsDidLoad:(NSError *)error
+{
     [super objectsDidLoad:error];
     
     // This method is called every time objects are loaded from Parse via the PFQuery
@@ -135,7 +144,7 @@
      
      PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-     if (cell == nil)
+     if ( cell == nil )
      {
          cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
      }
@@ -145,8 +154,6 @@
      cell.textLabel.text = [object objectForKey:self.textKey];
      cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %@",
                                  object[@"answerCount"]];
-    
-    
     
      return cell;
  }

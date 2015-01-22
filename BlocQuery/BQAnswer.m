@@ -20,17 +20,14 @@
 @dynamic answerText;
 @dynamic votes;
 
-+ (void)load {
-    
++ (void)load
+{
     [self registerSubclass];
-    
 }
 
 + (NSString *) parseClassName
 {
-    
     return @"BQAnswer";
-    
 }
 
 @end

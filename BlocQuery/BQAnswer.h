@@ -18,6 +18,6 @@
 @property (retain) NSString *answerText;
 @property int votes;
 
- + (NSString *)parseClassName;
++(NSString *)parseClassName;
 
 @end

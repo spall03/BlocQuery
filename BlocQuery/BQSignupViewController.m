@@ -14,10 +14,11 @@
 
 @implementation BQSignupViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    UIImage *logoImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"signup" ofType:@".png"]];
+    UIImage *logoImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"signup" ofType:@"png"]];
     UIImageView *signupLogo = [[UIImageView alloc] initWithImage:logoImage];
     
     //enable user description field at signup
@@ -29,7 +30,8 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
