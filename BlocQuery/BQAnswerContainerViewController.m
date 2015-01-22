@@ -14,9 +14,27 @@
 
 @implementation BQAnswerContainerViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    NSString *titleString = [NSString stringWithFormat:@"%@ asks:", _question.user];
+    [self setTitle:titleString];
+    
+    UIBarButtonItem *addAnswerButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
+    [self.navigationItem setRightBarButtonItem:addAnswerButton];
+    
+    NSString *questionString = [NSString stringWithFormat:@"%@", _question.questionText];
+    CGRect labelFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, 200); //TODO: the y-offset to get the label underneath the nav bar shouldn't be hard-coded like this
+    self.questionLabel = [[UILabel alloc]initWithFrame:labelFrame];
+    self.questionLabel.text = questionString;
+    self.questionLabel.textAlignment = NSTextAlignmentCenter;
+    
+    [self.view addSubview:self.questionLabel];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

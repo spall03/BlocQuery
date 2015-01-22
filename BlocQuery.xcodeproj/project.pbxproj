@@ -35,6 +35,8 @@
 		C6D142681A68680100AF2E05 /* BQQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D142671A68680100AF2E05 /* BQQuestion.m */; };
 		C6D1426B1A686D8600AF2E05 /* BQAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D1426A1A686D8600AF2E05 /* BQAnswer.m */; };
 		C6D671351A6F2E1C00446B34 /* BQQuestionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */; };
+		C6D671381A70613C00446B34 /* BQAnswerContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D671371A70613C00446B34 /* BQAnswerContainerViewController.m */; };
+		C6D6713B1A70845500446B34 /* BQAnswerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D6713A1A70845500446B34 /* BQAnswerTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +92,10 @@
 		C6D1426A1A686D8600AF2E05 /* BQAnswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAnswer.m; sourceTree = "<group>"; };
 		C6D671331A6F2E1C00446B34 /* BQQuestionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQQuestionTableViewController.h; sourceTree = "<group>"; };
 		C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQQuestionTableViewController.m; sourceTree = "<group>"; };
+		C6D671361A70613C00446B34 /* BQAnswerContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAnswerContainerViewController.h; sourceTree = "<group>"; };
+		C6D671371A70613C00446B34 /* BQAnswerContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAnswerContainerViewController.m; sourceTree = "<group>"; };
+		C6D671391A70845500446B34 /* BQAnswerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAnswerTableViewController.h; sourceTree = "<group>"; };
+		C6D6713A1A70845500446B34 /* BQAnswerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAnswerTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +166,10 @@
 				C6D142621A67467200AF2E05 /* BQSignupViewController.m */,
 				C6D671331A6F2E1C00446B34 /* BQQuestionTableViewController.h */,
 				C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */,
+				C6D671391A70845500446B34 /* BQAnswerTableViewController.h */,
+				C6D6713A1A70845500446B34 /* BQAnswerTableViewController.m */,
+				C6D671361A70613C00446B34 /* BQAnswerContainerViewController.h */,
+				C6D671371A70613C00446B34 /* BQAnswerContainerViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -389,6 +399,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6D1426B1A686D8600AF2E05 /* BQAnswer.m in Sources */,
+				C6D6713B1A70845500446B34 /* BQAnswerTableViewController.m in Sources */,
+				C6D671381A70613C00446B34 /* BQAnswerContainerViewController.m in Sources */,
 				C6C1A2AB1A647A2E0094AF29 /* ViewController.m in Sources */,
 				C6D142631A67467200AF2E05 /* BQSignupViewController.m in Sources */,
 				C6D671351A6F2E1C00446B34 /* BQQuestionTableViewController.m in Sources */,
