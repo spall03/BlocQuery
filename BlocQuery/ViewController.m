@@ -80,7 +80,7 @@
     
     [loginController setSignUpController:signupController];
     
-    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc]init];
+    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc] init];
     
     [self presentViewController:questionTableVC animated:YES completion:nil];
     
