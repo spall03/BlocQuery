@@ -29,7 +29,7 @@
 }
 
 //This user adds a new question.
-- (BQQuestion*)addNewQuestion:(NSString *) question
+- (BQQuestion*)addNewQuestion:(NSString *)question
 {
     BQQuestion* newQuestion = [BQQuestion object];
     
