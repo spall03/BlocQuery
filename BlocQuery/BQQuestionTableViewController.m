@@ -7,6 +7,8 @@
 //
 
 #import "BQQuestionTableViewController.h"
+#import "BQQuestion.h"
+#import "BQAnswerContainerViewController.h"
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
 
@@ -222,9 +224,18 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    // TODO: Add code to push a BQAnswerContainerViewController.
+    
+    BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
+    
+    BQAnswerContainerViewController *answerViewContainer = [[BQAnswerContainerViewController alloc] init];
+    answerViewContainer.question = answerviewQuestion;
+    
+    [self.navigationController pushViewController:answerViewContainer animated:YES];
+    
+    
 }
 
 

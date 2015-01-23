@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "BQQuestion.h"
+#import "BQAnswerTableViewController.h"
 
 @interface BQAnswerContainerViewController : UIViewController
 
 @property (nonatomic, strong) UILabel *questionLabel;
 @property (nonatomic, strong) BQQuestion *question;
+@property (nonatomic, strong) BQAnswerTableViewController *answerTable;
+
 
 @end

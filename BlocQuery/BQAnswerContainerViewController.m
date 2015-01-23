@@ -7,6 +7,7 @@
 //
 
 #import "BQAnswerContainerViewController.h"
+#import "BQAnswerTableViewController.h"
 
 @interface BQAnswerContainerViewController ()
 
@@ -30,8 +31,21 @@
     self.questionLabel.text = questionString;
     self.questionLabel.textAlignment = NSTextAlignmentCenter;
     
+    self.answerTable = [[BQAnswerTableViewController alloc] init];
+    self.answerTable.question = _question;
+    
     [self.view addSubview:self.questionLabel];
+    [self.view addSubview:self.answerTable];
     [self.view setBackgroundColor:[UIColor whiteColor]];
+    
+    
+    
+}
+
+- (void)viewDidLayoutSubviews
+{
+    
+    
     
     
     
