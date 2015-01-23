@@ -31,11 +31,6 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    
-//
-//    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc]init];
-//    
-//    BQAnswerContainerViewController *answerContainerVC = [[BQAnswerContainerViewController alloc]init];
 //    PFQuery *userQuery = [BQUser query];
 //    BQUser *tester = (BQUser*)[userQuery getObjectWithId:@"sdAHrhGCel"];
 //    
@@ -62,6 +57,17 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma Login Delegate
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
+    
+    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc] init];
+    [self presentViewController:questionTableVC animated:NO completion:nil];
+    
+    
 }
 
 @end
