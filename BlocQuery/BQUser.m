@@ -51,13 +51,17 @@
     newAnswer.question = thisQuestion;
     newAnswer.votes = 0; //no votes yet
     
+//    [newAnswer saveInBackground];
+//    
+//    [thisQuestion addObject:newAnswer forKey:@"answers"];
     
-    //FIXME: I don't think this is working correctly
-    NSMutableArray *newAnswers = [thisQuestion.answers mutableCopy];
-    [newAnswers addObject:answer];
-    thisQuestion.answers = newAnswers; //add new question to record
-    thisQuestion.answerCount++; //increment number of answers to this question
-    [thisQuestion saveInBackground]; //save the updated question to the cloud
+    
+//    //FIXME: I don't think this is working correctly
+//    NSMutableArray *newAnswers = [thisQuestion.answers mutableCopy];
+//    [newAnswers addObject:answer];
+//    thisQuestion.answers = newAnswers; //add new question to record
+//    thisQuestion.answerCount++; //increment number of answers to this question
+//    [thisQuestion saveInBackground]; //save the updated question to the cloud
     
     return newAnswer;
 }
