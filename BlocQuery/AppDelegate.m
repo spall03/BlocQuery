@@ -9,9 +9,11 @@
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
 #import "BQUser.h"
+#import "BQLoginViewController.h"
+#import "BQSignupViewController.h"
+#import "BQQuestionTableViewController.h"
 
-
-@interface AppDelegate ()
+@interface AppDelegate () <PFSignUpViewControllerDelegate, PFLogInViewControllerDelegate>
 
 @end
 
@@ -20,9 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [Parse enableLocalDatastore];
-    
-    [BQUser registerSubclass];
+    //[Parse enableLocalDatastore];
     
     
     // Initialize Parse.
@@ -31,6 +31,23 @@
     
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    BQLoginViewController *loginController = [[BQLoginViewController alloc] init];
+    loginController.delegate = self;
+    
+    BQSignupViewController *signupController = [[BQSignupViewController alloc] init];
+    [signupController setFields:PFSignUpFieldsDefault | PFSignUpFieldsAdditional];
+    [signupController setDelegate:self]; //not sure why it doesn't like this...?
+    
+    [loginController setSignUpController:signupController];
+
+    UINavigationController *navVC = [[UINavigationController alloc] init];
+
+    [navVC setViewControllers:@[loginController]];
+    
+    self.window.rootViewController = navVC;
+    
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
@@ -56,5 +73,28 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+#pragma Login Delegate
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
+    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc] init];
+    
+    
+    [(UINavigationController*)self.window.rootViewController setViewControllers:@[questionTableVC]];
+}
+
+#pragma Signup Delegate
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user
+{
+    [self.window.rootViewController dismissViewControllerAnimated:signUpController completion:nil];
+    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc] init];
+    
+    
+    [(UINavigationController*)self.window.rootViewController setViewControllers:@[questionTableVC]];
+    
+}
+
 
 @end

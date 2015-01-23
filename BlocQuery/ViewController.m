@@ -9,8 +9,13 @@
 #import "ViewController.h"
 #import <Parse/Parse.h>
 #import "BQUser.h"
+#import "BQQuestion.h"
+#import "BQAnswer.h"
 #import "BQLoginViewController.h"
 #import "BQSignupViewController.h"
+#import "BQQuestionTableViewController.h"
+#import "BQAnswerContainerViewController.h"
+#import "BQAnswerTableViewController.h"
 
 @interface ViewController ()
 
@@ -19,39 +24,56 @@
 @implementation ViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     
-//    UIImage *myImage = [[UIImage alloc]initWithContentsOfFile:@"/Users/spall/Desktop/Bloc/iOS/BlocQuery/BlocQuery/seal.png"];
-//    NSData *myData = UIImagePNGRepresentation(myImage);
-//    PFFile *myFile = [PFFile fileWithData:myData];
-//    
-//    BQUser *testUser = [BQUser object];
-//    testUser.userDescription = @"this is a test description!";
-//    testUser.userImage = myFile;
-//    testUser.username = @"Tester Extraordinaire";
-//    testUser.password = @"password";
-//    [testUser signUpInBackground];
+    [super viewDidLoad];
     
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    BQLoginViewController *loginController = [[BQLoginViewController alloc] init];
-    loginController.delegate = self;
     
-    BQSignupViewController *signupController = [[BQSignupViewController alloc] init];
-    [signupController setFields:PFSignUpFieldsDefault | PFSignUpFieldsAdditional];
-    [signupController setDelegate:self]; //not sure why it doesn't like this...?
+//
+//    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc]init];
+//    
+//    BQAnswerContainerViewController *answerContainerVC = [[BQAnswerContainerViewController alloc]init];
     
-    [loginController setSignUpController:signupController];
+//    PFQuery *userQuery = [BQUser query];
+//    BQUser *tester = (BQUser*)[userQuery getObjectWithId:@"sdAHrhGCel"];
+//    
+//    NSLog(@"%@", tester.username);
+//    
+//    BQQuestion *q = [tester addNewQuestion:@"Why is the sky blue?"];
+//    [q save];
+//    BQAnswer *a = [tester addNewAnswer:@"Because I said so." toQuestion:q];
+//    [a save];
+//    [tester addNewAnswer:@"Because the ocean is blue." toQuestion:q];
+//    [tester addNewAnswer:@"Stop asking stupid questions." toQuestion:q];
     
-    [self presentViewController:loginController animated:YES completion:nil];
+    
+//    BQAnswerTableViewController *answerTableVC = [[BQAnswerTableViewController alloc] init];
+//    answerTableVC.question = q;
+//    
+//    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:loginController];
+////
+////    
+//    [self :navVC animated:NO completion:nil];
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma Login Delegate
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
+    
+    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc] init];
+    [self presentViewController:questionTableVC animated:NO completion:nil];
+    
+    
 }
 
 @end
