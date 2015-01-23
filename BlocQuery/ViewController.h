@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <ParseUI/ParseUI.h>
 
-@interface ViewController : UIViewController <PFSignUpViewControllerDelegate, PFLogInViewControllerDelegate>
+@interface ViewController : UIViewController 
 
 
 @end

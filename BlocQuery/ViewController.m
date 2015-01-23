@@ -31,44 +31,49 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    BQLoginViewController *loginController = [[BQLoginViewController alloc] init];
-    loginController.delegate = self;
     
-    BQSignupViewController *signupController = [[BQSignupViewController alloc] init];
-    [signupController setFields:PFSignUpFieldsDefault | PFSignUpFieldsAdditional];
-    [signupController setDelegate:self]; //not sure why it doesn't like this...?
+//
+//    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc]init];
+//    
+//    BQAnswerContainerViewController *answerContainerVC = [[BQAnswerContainerViewController alloc]init];
     
-    [loginController setSignUpController:signupController];
-    
-    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc]init];
-    
-    BQAnswerContainerViewController *answerContainerVC = [[BQAnswerContainerViewController alloc]init];
-    
-    BQUser *new = [[BQUser alloc]init];
-    new.username = @"John Kennedy";
-    new.password = @"password";
-    [new signUp];
-    
-    BQQuestion *q = [new addNewQuestion:@"Why is the sky blue?"];
-    [q save];
-    [new addNewAnswer:@"Because that's just the way it is." toQuestion:q];
-    [new addNewAnswer:@"Because the ocean is blue." toQuestion:q];
-    [new addNewAnswer:@"Stop asking stupid questions." toQuestion:q];
+//    PFQuery *userQuery = [BQUser query];
+//    BQUser *tester = (BQUser*)[userQuery getObjectWithId:@"sdAHrhGCel"];
+//    
+//    NSLog(@"%@", tester.username);
+//    
+//    BQQuestion *q = [tester addNewQuestion:@"Why is the sky blue?"];
+//    [q save];
+//    BQAnswer *a = [tester addNewAnswer:@"Because I said so." toQuestion:q];
+//    [a save];
+//    [tester addNewAnswer:@"Because the ocean is blue." toQuestion:q];
+//    [tester addNewAnswer:@"Stop asking stupid questions." toQuestion:q];
     
     
-    BQAnswerTableViewController *answerTableVC = [[BQAnswerTableViewController alloc] init];
-    answerTableVC.question = q;
-    
-    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:answerTableVC];
-    
-    
-    [self presentViewController:navVC animated:NO completion:nil];
+//    BQAnswerTableViewController *answerTableVC = [[BQAnswerTableViewController alloc] init];
+//    answerTableVC.question = q;
+//    
+//    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:loginController];
+////
+////    
+//    [self :navVC animated:NO completion:nil];
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma Login Delegate
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
+    
+    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc] init];
+    [self presentViewController:questionTableVC animated:NO completion:nil];
+    
+    
 }
 
 @end
