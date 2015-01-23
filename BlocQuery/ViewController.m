@@ -59,15 +59,4 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma Login Delegate
-
-- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
-{
-    
-    BQQuestionTableViewController *questionTableVC = [[BQQuestionTableViewController alloc] init];
-    [self presentViewController:questionTableVC animated:NO completion:nil];
-    
-    
-}
-
 @end
