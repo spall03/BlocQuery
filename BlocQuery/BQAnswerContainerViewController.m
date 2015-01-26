@@ -19,24 +19,40 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    //display the questioner in the title bar
     NSString *titleString = [NSString stringWithFormat:@"%@ asks:", _question.user];
     [self setTitle:titleString];
     
+    //enable a button to add a new answer to the question
     UIBarButtonItem *addAnswerButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
     [self.navigationItem setRightBarButtonItem:addAnswerButton];
     
+    //display the question text first
     NSString *questionString = [NSString stringWithFormat:@"%@", _question.questionText];
-    CGRect labelFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, 200); //TODO: the y-offset to get the label underneath the nav bar shouldn't be hard-coded like this
+    CGRect labelFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, 150); //TODO: the y-offset to get the label underneath the nav bar shouldn't be hard-coded like this
     self.questionLabel = [[UILabel alloc]initWithFrame:labelFrame];
     self.questionLabel.text = questionString;
     self.questionLabel.textAlignment = NSTextAlignmentCenter;
     
+    //then display the table of answers underneath it
     self.answerTable = [[BQAnswerTableViewController alloc] init];
     self.answerTable.question = _question;
     
-    [self.view addSubview:self.questionLabel];
-    [self.view addSubview:self.answerTable];
+    UIView *answerTable = self.answerTable.view;
+    UILabel *titleLabel = self.questionLabel;
+    
+
     [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self addChildViewController:self.answerTable];
+    [self.view addSubview:answerTable];
+    [self.view addSubview:titleLabel];
+    
+    //FIXME: This autolayout stuff doesn't work.
+    
+    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(answerTable, titleLabel);
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[titleLabel]-100-[answerTable]" options:kNilOptions metrics:nil views:viewDictionary]];
+
     
     
     
@@ -44,7 +60,7 @@
 
 - (void)viewDidLayoutSubviews
 {
-    
+
     
     
     

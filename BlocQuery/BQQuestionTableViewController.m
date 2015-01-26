@@ -8,11 +8,14 @@
 
 #import "BQQuestionTableViewController.h"
 #import "BQQuestion.h"
+#import "BQUser.h"
 #import "BQAnswerContainerViewController.h"
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
 
 @interface BQQuestionTableViewController ()
+
+@property (nonatomic, strong) BQUser *user;
 
 @end
 
@@ -61,11 +64,19 @@
 {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.user = [BQUser currentUser];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //add a welcome message for the user
+    NSString *titleString = [NSString stringWithFormat:@"Welcome, %@", self.user.username];
+    [self setTitle:titleString];
+    
+    //enable a button for adding new questions
+    UIBarButtonItem *addQuestionButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
+    [self.navigationItem setRightBarButtonItem:addQuestionButton];
+    
+    //enable a button to go to the user's profile
+    UIBarButtonItem *profileButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:nil action:nil];
+    [self.navigationItem setLeftBarButtonItem:profileButton];
 }
 
 - (void)viewDidUnload {
@@ -224,15 +235,19 @@
 
 #pragma mark - UITableViewDelegate
 
+//open up a table of answers when a question is selected by the user.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     
+    //get the question the user tapped
     BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
     
+    //create a new answerview container
     BQAnswerContainerViewController *answerViewContainer = [[BQAnswerContainerViewController alloc] init];
     answerViewContainer.question = answerviewQuestion;
     
+    //and push it onto the stack
     [self.navigationController pushViewController:answerViewContainer animated:YES];
     
     

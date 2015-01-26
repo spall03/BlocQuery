@@ -31,26 +31,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-//    PFQuery *userQuery = [BQUser query];
-//    BQUser *tester = (BQUser*)[userQuery getObjectWithId:@"sdAHrhGCel"];
-//    
-//    NSLog(@"%@", tester.username);
-//    
-//    BQQuestion *q = [tester addNewQuestion:@"Why is the sky blue?"];
-//    [q save];
-//    BQAnswer *a = [tester addNewAnswer:@"Because I said so." toQuestion:q];
-//    [a save];
-//    [tester addNewAnswer:@"Because the ocean is blue." toQuestion:q];
-//    [tester addNewAnswer:@"Stop asking stupid questions." toQuestion:q];
     
-    
-//    BQAnswerTableViewController *answerTableVC = [[BQAnswerTableViewController alloc] init];
-//    answerTableVC.question = q;
-//    
-//    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:loginController];
-////
-////    
-//    [self :navVC animated:NO completion:nil];
     
 }
 
