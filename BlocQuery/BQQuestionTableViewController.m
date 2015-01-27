@@ -244,8 +244,7 @@
     BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
     
     //create a new answerview container
-    BQAnswerContainerViewController *answerViewContainer = [[BQAnswerContainerViewController alloc] init];
-    answerViewContainer.question = answerviewQuestion;
+    BQAnswerContainerViewController *answerViewContainer = [[BQAnswerContainerViewController alloc] initWithQuestion:answerviewQuestion];
     
     //and push it onto the stack
     [self.navigationController pushViewController:answerViewContainer animated:YES];

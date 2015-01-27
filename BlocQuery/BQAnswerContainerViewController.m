@@ -15,57 +15,51 @@
 
 @implementation BQAnswerContainerViewController
 
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    //display the questioner in the title bar
-    NSString *titleString = [NSString stringWithFormat:@"%@ asks:", _question.user];
-    [self setTitle:titleString];
-    
-    //enable a button to add a new answer to the question
-    UIBarButtonItem *addAnswerButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
-    [self.navigationItem setRightBarButtonItem:addAnswerButton];
-    
-    //display the question text first
-    NSString *questionString = [NSString stringWithFormat:@"%@", _question.questionText];
-    CGRect labelFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, 150); //TODO: the y-offset to get the label underneath the nav bar shouldn't be hard-coded like this
-    self.questionLabel = [[UILabel alloc]initWithFrame:labelFrame];
-    self.questionLabel.text = questionString;
-    self.questionLabel.textAlignment = NSTextAlignmentCenter;
-    
-    //then display the table of answers underneath it
-    self.answerTable = [[BQAnswerTableViewController alloc] init];
-    self.answerTable.question = _question;
-    
-    UIView *answerTable = self.answerTable.view;
-    UILabel *titleLabel = self.questionLabel;
-    
-
-    [self.view setBackgroundColor:[UIColor whiteColor]];
-    [self addChildViewController:self.answerTable];
-    [self.view addSubview:answerTable];
-    [self.view addSubview:titleLabel];
-    
-    //FIXME: This autolayout stuff doesn't work.
-    
-    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(answerTable, titleLabel);
-    
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[titleLabel]-100-[answerTable]" options:kNilOptions metrics:nil views:viewDictionary]];
-
-    
-    
-    
-}
-
-- (void)viewDidLayoutSubviews
+- (instancetype)initWithQuestion:(BQQuestion*)question
 {
-
-    
-    
-    
-    
+    self = [super init];
+    if ( self )
+    {
+        self.question = question;
+        //display the questioner in the title bar
+        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.user]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
+        //             NSString* username = ( !self.question.user ) ? @"A user": self.question.user;
+        //             NSString *titleString = [NSString stringWithFormat:@"%@ asks:", username];
+        [self setTitle:titleString];
+        
+        //enable a button to add a new answer to the question
+        UIBarButtonItem *addAnswerButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
+        [self.navigationItem setRightBarButtonItem:addAnswerButton];
+        
+        //display the question text first
+        NSString *questionString = [NSString stringWithFormat:@"%@", self.question.questionText];
+        self.questionLabel = [[UILabel alloc] init];
+        self.questionLabel.text = questionString;
+        self.questionLabel.textAlignment = NSTextAlignmentCenter;
+        
+        //then display the table of answers underneath it
+        self.answerTable = [[BQAnswerTableViewController alloc] initWithQuestion:self.question];
+        
+        UIView *answerTableView = self.answerTable.view;
+        
+        [self.view setBackgroundColor:[UIColor whiteColor]];
+        [self addChildViewController:self.answerTable];
+        [self.view addSubview:answerTableView];
+        [self.view addSubview:self.questionLabel];
+        
+        // FIXME: The layout still isn't quite right, partially because we're mixing view controllers and views, here.
+        
+    }
+    return self;
 }
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+        CGRect labelFrame = CGRectMake(0.0f, ( self.presentingViewController.navigationController.navigationBar.frame.size.height + 10 ), self.view.frame.size.width, self.view.frame.size.height);
+    self.questionLabel.frame = labelFrame;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

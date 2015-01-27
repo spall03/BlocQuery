@@ -17,4 +17,5 @@
 @property (nonatomic, strong) BQAnswerTableViewController *answerTable;
 
 
+- (instancetype)initWithQuestion:(BQQuestion*)question;
 @end

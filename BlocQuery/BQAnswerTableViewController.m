@@ -16,6 +16,16 @@
 
 @implementation BQAnswerTableViewController
 
+- (instancetype)initWithQuestion:(BQQuestion*)question
+{
+    self = [super init];
+    if ( self )
+    {
+        self.question = question;
+    }
+    return self;
+}
+
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
