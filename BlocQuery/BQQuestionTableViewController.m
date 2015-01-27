@@ -9,7 +9,7 @@
 #import "BQQuestionTableViewController.h"
 #import "BQQuestion.h"
 #import "BQUser.h"
-#import "BQAnswerContainerViewController.h"
+#import "BQAnswerTableViewController.h"
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
 
@@ -244,8 +244,7 @@
     BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
     
     //create a new answerview container
-    BQAnswerContainerViewController *answerViewContainer = [[BQAnswerContainerViewController alloc] init];
-    answerViewContainer.question = answerviewQuestion;
+    BQAnswerTableViewController *answerViewContainer = [[BQAnswerTableViewController alloc] initWithQuestion:answerviewQuestion];
     
     //and push it onto the stack
     [self.navigationController pushViewController:answerViewContainer animated:YES];

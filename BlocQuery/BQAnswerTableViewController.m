@@ -16,6 +16,33 @@
 
 @implementation BQAnswerTableViewController
 
+- (instancetype)initWithQuestion:(BQQuestion*)question
+{
+    self = [super init];
+    if ( self )
+    {
+        self.question = question;
+        //display the questioner in the title bar
+        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.user]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
+        //             NSString* username = ( !self.question.user ) ? @"A user": self.question.user;
+        //             NSString *titleString = [NSString stringWithFormat:@"%@ asks:", username];
+        [self setTitle:titleString];
+        
+        //enable a button to add a new answer to the question
+        UIBarButtonItem *addAnswerButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
+        [self.navigationItem setRightBarButtonItem:addAnswerButton];
+        
+        //display the question text first
+        NSString *questionString = [NSString stringWithFormat:@"%@", self.question.questionText];
+        self.questionLabel = [[UILabel alloc] init];
+        self.questionLabel.text = questionString;
+        self.questionLabel.textAlignment = NSTextAlignmentCenter;
+        
+        [self.view setBackgroundColor:[UIColor whiteColor]];
+    }
+    return self;
+}
+
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     if (self) {
@@ -52,7 +79,8 @@
 
 #pragma mark - UIViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -60,6 +88,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.questionLabel sizeToFit];
 }
 
 - (void)viewDidUnload {
@@ -223,5 +252,13 @@
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
 
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return self.questionLabel;
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return ( self.questionLabel.frame.size.height + 10 );
+}
 @end

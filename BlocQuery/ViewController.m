@@ -7,15 +7,6 @@
 //
 
 #import "ViewController.h"
-#import <Parse/Parse.h>
-#import "BQUser.h"
-#import "BQQuestion.h"
-#import "BQAnswer.h"
-#import "BQLoginViewController.h"
-#import "BQSignupViewController.h"
-#import "BQQuestionTableViewController.h"
-#import "BQAnswerContainerViewController.h"
-#import "BQAnswerTableViewController.h"
 
 @interface ViewController ()
 
