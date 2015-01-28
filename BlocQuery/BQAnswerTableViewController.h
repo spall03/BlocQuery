@@ -9,9 +9,11 @@
 #import "PFQueryTableViewController.h"
 #import "BQQuestion.h"
 
+@class BQAnswerQuestionView;
+
 @interface BQAnswerTableViewController : PFQueryTableViewController
 
-@property (nonatomic, strong) UILabel *questionLabel;
+@property (nonatomic, strong) BQAnswerQuestionView *answerView;
 @property (nonatomic, strong) BQQuestion *question; //the question we're going to pull answers in for
 
 - (instancetype)initWithQuestion:(BQQuestion*)question;

@@ -7,6 +7,7 @@
 //
 
 #import "BQAnswerTableViewController.h"
+#import "BQAnswerQuestionView.h"
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
 
@@ -29,14 +30,11 @@
         [self setTitle:titleString];
         
         //enable a button to add a new answer to the question
-        UIBarButtonItem *addAnswerButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
-        [self.navigationItem setRightBarButtonItem:addAnswerButton];
+        UIBarButtonItem *addAnswerButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didPressAddAnswerButton:)];
+        [self.navigationItem setRightBarButtonItem:addAnswerButton ];
         
-        //display the question text first
-        NSString *questionString = [NSString stringWithFormat:@"%@", self.question.questionText];
-        self.questionLabel = [[UILabel alloc] init];
-        self.questionLabel.text = questionString;
-        self.questionLabel.textAlignment = NSTextAlignmentCenter;
+        BQAnswerQuestionView* answerView = [[BQAnswerQuestionView alloc] initWithFrame:CGRectMake(0.0, 0.0, 100, 100) andQuestion:question];
+        self.answerView = answerView;
         
         [self.view setBackgroundColor:[UIColor whiteColor]];
     }
@@ -88,7 +86,6 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    [self.questionLabel sizeToFit];
 }
 
 - (void)viewDidUnload {
@@ -246,19 +243,29 @@
  }
  */
 
+- (void)didPressAddAnswerButton:(id)sender
+{
+   
+   //cause our answerQuestionView to expand its text window...
+    [self.answerView startTextEditing];
+    
+}
+
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    
+    
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    return self.questionLabel;
+    return self.answerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return ( self.questionLabel.frame.size.height + 10 );
+    return ( self.answerView.frame.size.height + 10 );
 }
 @end
