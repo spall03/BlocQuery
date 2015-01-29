@@ -67,7 +67,7 @@
     self.user = [BQUser currentUser];
     
     //add a welcome message for the user
-    NSString *titleString = [NSString stringWithFormat:@"Welcome, %@", self.user.username];
+    NSString *titleString = [NSString stringWithFormat:@"Questions"];
     [self setTitle:titleString];
     
     //enable a button for adding new questions

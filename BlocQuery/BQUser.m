@@ -42,28 +42,22 @@
 }
 
 //This user adds a new answer to this question.
-- (BQAnswer*)addNewAnswer:(NSString *)answer toQuestion:(BQQuestion *)thisQuestion
+- (void)addNewAnswer:(NSString *)answer toQuestion:(BQQuestion *)thisQuestion
 {
-    BQAnswer* newAnswer = [BQAnswer object];
     
-    newAnswer.user = self.username; //This user provided the answer
+    //create, fill out, and save the new answer
+    BQAnswer* newAnswer = [BQAnswer object];
+//    newAnswer.user = [BQUser currentUser]; //FIXME: Parse won't save correctly due to pointer conflict
     newAnswer.answerText = answer;
     newAnswer.question = thisQuestion;
     newAnswer.votes = 0; //no votes yet
+    [newAnswer save];
     
-//    [newAnswer saveInBackground];
-//    
-//    [thisQuestion addObject:newAnswer forKey:@"answers"];
+    //associate the answer with this question, increment answer count, and save the question.
+    [thisQuestion addObject:newAnswer forKey:@"answers"];
+    [thisQuestion incrementKey:@"answerCount"];
+    [thisQuestion save];
     
-    
-//    //FIXME: I don't think this is working correctly
-//    NSMutableArray *newAnswers = [thisQuestion.answers mutableCopy];
-//    [newAnswers addObject:answer];
-//    thisQuestion.answers = newAnswers; //add new question to record
-//    thisQuestion.answerCount++; //increment number of answers to this question
-//    [thisQuestion saveInBackground]; //save the updated question to the cloud
-    
-    return newAnswer;
 }
 
 //This user increments this answer's vote count.

@@ -13,7 +13,7 @@
 
 @interface BQAnswer : PFObject<PFSubclassing>
 
-@property (retain) NSString *user;
+@property (retain) BQUser *user;
 @property (retain) BQQuestion *question;
 @property (retain) NSString *answerText;
 @property int votes;

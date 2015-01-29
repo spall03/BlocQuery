@@ -9,8 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "BQQuestion.h"
 
+@class BQAnswerQuestionView;
+
+@protocol BQAnswerQuestionViewDelegate <NSObject>
+
+- (void) answerQuestionViewDidAddAnswer:(BQAnswerQuestionView*)sender;
+
+@end
+
 @interface BQAnswerQuestionView : UIView
 
+@property (nonatomic, weak) NSObject <BQAnswerQuestionViewDelegate> *delegate;
 @property (nonatomic, strong) UILabel *questionLabel;
 @property (nonatomic, strong) BQQuestion *question; //the question we're going to pull answers in for
 @property (nonatomic, strong) UITextView *textView;

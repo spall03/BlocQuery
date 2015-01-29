@@ -11,7 +11,7 @@
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
 
-@interface BQAnswerTableViewController ()
+@interface BQAnswerTableViewController () <BQAnswerQuestionViewDelegate>
 
 @end
 
@@ -35,8 +35,10 @@
         
         BQAnswerQuestionView* answerView = [[BQAnswerQuestionView alloc] initWithFrame:CGRectMake(0.0, 0.0, 100, 100) andQuestion:question];
         self.answerView = answerView;
+        self.answerView.delegate = self;
         
         [self.view setBackgroundColor:[UIColor whiteColor]];
+
     }
     return self;
 }
@@ -268,4 +270,15 @@
 {
     return ( self.answerView.frame.size.height + 10 );
 }
+
+#pragma BQAnswerQuestionViewDelegate
+
+//reload query table when the user adds a new answer to a question
+- (void)answerQuestionViewDidAddAnswer:(BQAnswerQuestionView *)sender
+{
+    
+    [self loadObjects];
+    
+}
+
 @end
