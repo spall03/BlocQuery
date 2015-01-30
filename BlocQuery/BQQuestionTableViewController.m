@@ -11,11 +11,13 @@
 #import "BQUser.h"
 #import "BQAnswerTableViewController.h"
 #import "PFTableViewCell.h"
+#import "BQAddQuestionView.h"
 #import <Parse/Parse.h>
 
 @interface BQQuestionTableViewController ()
 
 @property (nonatomic, strong) BQUser *user;
+@property (nonatomic, strong) UIWindow *modalWindow;
 
 @end
 
@@ -71,7 +73,7 @@
     [self setTitle:titleString];
     
     //enable a button for adding new questions
-    UIBarButtonItem *addQuestionButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
+    UIBarButtonItem *addQuestionButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewQuestion:)];
     [self.navigationItem setRightBarButtonItem:addQuestionButton];
     
     //enable a button to go to the user's profile
@@ -85,24 +87,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-/////////////////////////////////////////////////////////
-// TODO: If we don't do anything but just call [super ...] with any of these we should just delete them...
-/////////////////////////////////////////////////////////
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
@@ -249,6 +233,30 @@
     //and push it onto the stack
     [self.navigationController pushViewController:answerViewContainer animated:YES];
     
+    
+}
+
+#pragma - adding new questions
+
+- (void) addNewQuestion:(id)sender
+{
+    
+    NSLog(@"add a new question!");
+    
+    UIWindow *questionModal = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    questionModal.backgroundColor = [UIColor blackColor];
+    questionModal.alpha = 1.0;
+
+    CGRect addQuestionViewFrame = CGRectMake(questionModal.bounds.origin.x + 50, questionModal.bounds.origin.y + 50, questionModal.bounds.size.width - 100, questionModal.bounds.size.height - 100);
+    
+    
+    BQAddQuestionView *addQuestionView = [[BQAddQuestionView alloc]initWithFrame:addQuestionViewFrame];
+    
+    [questionModal addSubview:addQuestionView];
+    questionModal.windowLevel = UIWindowLevelAlert;
+    
+    self.modalWindow = questionModal;
+    self.modalWindow.hidden = NO;
     
 }
 

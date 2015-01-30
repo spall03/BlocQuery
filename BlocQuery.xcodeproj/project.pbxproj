@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A33F8EC71C351629DA0B66D4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49864A83E0922D1EA3105D93 /* libPods.a */; };
 		C611C2E21A783625006A67E2 /* BQAnswerQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C611C2E11A783625006A67E2 /* BQAnswerQuestionView.m */; };
+		C611C2EB1A7C19B6006A67E2 /* BQAddQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C611C2EA1A7C19B6006A67E2 /* BQAddQuestionView.m */; };
 		C68E3B851A65C57500D0D4B5 /* BQUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C68E3B841A65C57500D0D4B5 /* BQUser.m */; };
 		C6C1A2A51A647A2E0094AF29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C1A2A41A647A2E0094AF29 /* main.m */; };
 		C6C1A2A81A647A2E0094AF29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C1A2A71A647A2E0094AF29 /* AppDelegate.m */; };
@@ -55,6 +56,8 @@
 		9C5A42668352720DE0BEFE23 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C611C2E01A783625006A67E2 /* BQAnswerQuestionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAnswerQuestionView.h; sourceTree = "<group>"; };
 		C611C2E11A783625006A67E2 /* BQAnswerQuestionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAnswerQuestionView.m; sourceTree = "<group>"; };
+		C611C2E91A7C19B6006A67E2 /* BQAddQuestionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAddQuestionView.h; sourceTree = "<group>"; };
+		C611C2EA1A7C19B6006A67E2 /* BQAddQuestionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAddQuestionView.m; sourceTree = "<group>"; };
 		C68E3B831A65C57500D0D4B5 /* BQUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQUser.h; sourceTree = "<group>"; };
 		C68E3B841A65C57500D0D4B5 /* BQUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQUser.m; sourceTree = "<group>"; };
 		C6C1A29F1A647A2E0094AF29 /* BlocQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlocQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +145,8 @@
 			children = (
 				C611C2E01A783625006A67E2 /* BQAnswerQuestionView.h */,
 				C611C2E11A783625006A67E2 /* BQAnswerQuestionView.m */,
+				C611C2E91A7C19B6006A67E2 /* BQAddQuestionView.h */,
+				C611C2EA1A7C19B6006A67E2 /* BQAddQuestionView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -399,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6D1426B1A686D8600AF2E05 /* BQAnswer.m in Sources */,
+				C611C2EB1A7C19B6006A67E2 /* BQAddQuestionView.m in Sources */,
 				C6D6713B1A70845500446B34 /* BQAnswerTableViewController.m in Sources */,
 				C6C1A2AB1A647A2E0094AF29 /* ViewController.m in Sources */,
 				C6D142631A67467200AF2E05 /* BQSignupViewController.m in Sources */,
