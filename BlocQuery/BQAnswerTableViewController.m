@@ -275,8 +275,7 @@
 
 //reload query table when the user adds a new answer to a question
 - (void)answerQuestionViewDidAddAnswer:(BQAnswerQuestionView *)sender
-{
-    
+{    
     [self loadObjects];
     
 }
