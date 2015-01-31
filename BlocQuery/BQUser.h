@@ -17,7 +17,7 @@
 @property (retain) NSString *userDescription;
 @property (retain) PFFile *userImage;
 
-- (BQQuestion *)addNewQuestion:(NSString *)question;
+- (void)addNewQuestion:(NSString *)question;
 - (void)addNewAnswer:(NSString *)answer toQuestion:(BQQuestion *)question;
 - (void)likeAnswer:(BQAnswer *)answer;
 

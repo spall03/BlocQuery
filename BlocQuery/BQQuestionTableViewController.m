@@ -11,10 +11,11 @@
 #import "BQUser.h"
 #import "BQAnswerTableViewController.h"
 #import "PFTableViewCell.h"
+#import "BQAddQuestionViewController.h"
 #import "BQAddQuestionView.h"
 #import <Parse/Parse.h>
 
-@interface BQQuestionTableViewController ()
+@interface BQQuestionTableViewController () <BQAddQuestionViewControllerDelegate>
 
 @property (nonatomic, strong) BQUser *user;
 @property (nonatomic, strong) UIWindow *modalWindow;
@@ -243,20 +244,40 @@
     
     NSLog(@"add a new question!");
     
+//    CGRect modalWindow = CGRectMake( [UIScreen mainScreen].bounds.origin.x, [UIScreen mainScreen].bounds.origin.y, 200, 200);
+    
     UIWindow *questionModal = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    questionModal.backgroundColor = [UIColor blackColor];
-    questionModal.alpha = 1.0;
-
-    CGRect addQuestionViewFrame = CGRectMake(questionModal.bounds.origin.x + 50, questionModal.bounds.origin.y + 50, questionModal.bounds.size.width - 100, questionModal.bounds.size.height - 100);
+    questionModal.backgroundColor = [UIColor grayColor];
     
     
-    BQAddQuestionView *addQuestionView = [[BQAddQuestionView alloc]initWithFrame:addQuestionViewFrame];
+    BQAddQuestionViewController *addQuestionVC = [[BQAddQuestionViewController alloc]init];
+    addQuestionVC.delegate = self;
     
-    [questionModal addSubview:addQuestionView];
+    
+    [questionModal setRootViewController:addQuestionVC];
     questionModal.windowLevel = UIWindowLevelAlert;
     
     self.modalWindow = questionModal;
     self.modalWindow.hidden = NO;
+    
+}
+
+#pragma AddQuestionVCDelegate
+
+//hides question submission window and reloads question table
+- (void)addQuestionVCDidAddQuestion:(BQAddQuestionView *)sender
+{
+    
+    self.modalWindow.hidden = YES;
+    [self loadObjects];
+    
+}
+
+//just hides question submission window without reloading
+- (void)addQuestionVCDidCancel:(BQAddQuestionView *)sender
+{
+    
+    self.modalWindow.hidden = YES;
     
 }
 

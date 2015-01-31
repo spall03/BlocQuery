@@ -8,7 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class BQAddQuestionView;
+
+@protocol BQAddQuestionViewDelegate <NSObject>
+
+@optional
+
+- (void) addQuestionViewDidAddQuestion:(BQAddQuestionView*)sender;
+- (void) addQuestionViewWasCanceled:(BQAddQuestionView*)sender;
+
+@end
+
 @interface BQAddQuestionView : UIView
+
+@property (nonatomic, weak) NSObject <BQAddQuestionViewDelegate> *delegate;
 
 -(instancetype)initWithFrame:(CGRect)frame;
 

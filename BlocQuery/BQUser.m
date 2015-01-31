@@ -29,7 +29,7 @@
 }
 
 //This user adds a new question.
-- (BQQuestion*)addNewQuestion:(NSString *)question
+- (void)addNewQuestion:(NSString *)question
 {
     BQQuestion* newQuestion = [BQQuestion object];
     
@@ -38,7 +38,7 @@
     newQuestion.answers = nil; //no answers to the question yet
     newQuestion.answerCount = 0;
     
-    return newQuestion;
+    [newQuestion save];
 }
 
 //This user adds a new answer to this question.
