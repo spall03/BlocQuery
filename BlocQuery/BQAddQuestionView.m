@@ -30,11 +30,17 @@
     
     if (self)
     {
+        self.backgroundColor = [UIColor grayColor];
+        self.center = CGPointMake(CGRectGetMidX(self.window.bounds), CGRectGetMidY(self.window.bounds));
+        self.layer.cornerRadius = 9.0f;
+
         
         //setup the top label for the window
         self.addNewQuestionLabel = [[UILabel alloc] init];
         self.addNewQuestionLabel.backgroundColor = [UIColor whiteColor];
         self.addNewQuestionLabel.text = @"Add a new question";
+        
+        NSLog(@"Frame for view; %@", NSStringFromCGRect( frame) );
         
         //setup the cancel button
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -47,7 +53,7 @@
         [self.submitButton addTarget:self action:@selector(submitButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
         //setup the text field
-        self.textView = [[UITextView alloc]init];
+        self.textView = [[UITextView alloc] init];
         self.textView.text = @"Write your question here.";
         
         //setup the example label
@@ -61,8 +67,16 @@
             [self addSubview:viewToAdd];
             viewToAdd.translatesAutoresizingMaskIntoConstraints = NO;
         }
-    
-    
+        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_addNewQuestionLabel, _cancelButton, _submitButton, _textView, _exampleQuestionLabel);
+        NSDictionary *metrics = @{@"padding":@10.0};
+        
+        
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_cancelButton(==50)]-[_addNewQuestionLabel]-[_submitButton(==50)]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:viewDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_textView]-padding-|" options:kNilOptions metrics:metrics views:viewDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_exampleQuestionLabel]-padding-|" options:kNilOptions metrics:metrics views:viewDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[_cancelButton]-[_textView(==300)]-[_exampleQuestionLabel]-padding-|" options:kNilOptions metrics:metrics views:viewDictionary]];
+        
+        [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil]; // FIXME: Added this to see where our frame is being changed... it's in the window.hidden = NO; call.
     }
     
     
@@ -72,15 +86,7 @@
 
 -(void)layoutSubviews
 {
-    
-    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_addNewQuestionLabel, _cancelButton, _submitButton, _textView, _exampleQuestionLabel);
-    
-    
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_cancelButton]-[_addNewQuestionLabel]-[_submitButton]|" options:kNilOptions metrics:nil views:viewDictionary]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_textView]|" options:kNilOptions metrics:nil views:viewDictionary]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_exampleQuestionLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_cancelButton]-[_textView]-[_exampleQuestionLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
-    
+    [super layoutSubviews];
 }
 
 -(void)cancelButtonPressed:(id)sender
@@ -96,6 +102,11 @@
     [[BQUser currentUser] addNewQuestion:self.textView.text];
     [self.delegate addQuestionViewDidAddQuestion:self];
     
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSLog(@"Our frame value is changing to:%@ - here:\n%@", change, [NSThread callStackSymbols]);
 }
 
 @end

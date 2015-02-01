@@ -23,12 +23,13 @@
     {
         CGRect newFrame = self.view.frame;
         newFrame.size.width = newFrame.size.width * 0.8;
-        newFrame.size.height = newFrame.size.height * 0.8;
+        newFrame.size.height = newFrame.size.height * 0.5;
         
         BQAddQuestionView *newAddQuestionView = [[BQAddQuestionView alloc] initWithFrame:newFrame];
         newAddQuestionView.delegate = self;
+        [newAddQuestionView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         
-        self.view = newAddQuestionView;
+        self.view = newAddQuestionView;        
     }
     return self;
 }

@@ -246,13 +246,12 @@
     
 //    CGRect modalWindow = CGRectMake( [UIScreen mainScreen].bounds.origin.x, [UIScreen mainScreen].bounds.origin.y, 200, 200);
     
-    UIWindow *questionModal = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    questionModal.backgroundColor = [UIColor grayColor];
+    UIWindow *questionModal = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    questionModal.backgroundColor = [UIColor clearColor];
     
     
-    BQAddQuestionViewController *addQuestionVC = [[BQAddQuestionViewController alloc]init];
+    BQAddQuestionViewController *addQuestionVC = [[BQAddQuestionViewController alloc] init];
     addQuestionVC.delegate = self;
-    
     
     [questionModal setRootViewController:addQuestionVC];
     questionModal.windowLevel = UIWindowLevelAlert;
