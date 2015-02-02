@@ -31,7 +31,6 @@
     if (self)
     {
         self.backgroundColor = [UIColor grayColor];
-        self.center = CGPointMake(CGRectGetMidX(self.window.bounds), CGRectGetMidY(self.window.bounds));
         self.layer.cornerRadius = 9.0f;
 
         
@@ -75,8 +74,6 @@
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_textView]-padding-|" options:kNilOptions metrics:metrics views:viewDictionary]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_exampleQuestionLabel]-padding-|" options:kNilOptions metrics:metrics views:viewDictionary]];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[_cancelButton]-[_textView(==300)]-[_exampleQuestionLabel]-padding-|" options:kNilOptions metrics:metrics views:viewDictionary]];
-        
-        [self addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil]; // FIXME: Added this to see where our frame is being changed... it's in the window.hidden = NO; call.
     }
     
     
@@ -98,15 +95,9 @@
 
 -(void)submitButtonPressed:(id)sender
 {
-    
+    // FIXME: Saving the data probably isn't best left in the view class... we might want to relocate this to our owning view controller... the BQQuestionTableViewController.
     [[BQUser currentUser] addNewQuestion:self.textView.text];
     [self.delegate addQuestionViewDidAddQuestion:self];
     
 }
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    NSLog(@"Our frame value is changing to:%@ - here:\n%@", change, [NSThread callStackSymbols]);
-}
-
 @end

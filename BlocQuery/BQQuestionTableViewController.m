@@ -15,7 +15,7 @@
 #import "BQAddQuestionView.h"
 #import <Parse/Parse.h>
 
-@interface BQQuestionTableViewController () <BQAddQuestionViewControllerDelegate>
+@interface BQQuestionTableViewController () <BQAddQuestionViewDelegate>
 
 @property (nonatomic, strong) BQUser *user;
 @property (nonatomic, strong) UIWindow *modalWindow;
@@ -249,36 +249,46 @@
     UIWindow *questionModal = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     questionModal.backgroundColor = [UIColor clearColor];
     
-    
-    BQAddQuestionViewController *addQuestionVC = [[BQAddQuestionViewController alloc] init];
-    addQuestionVC.delegate = self;
-    
-    [questionModal setRootViewController:addQuestionVC];
+    // FIXME: Handle device rotation
     questionModal.windowLevel = UIWindowLevelAlert;
+    
+    CGRect newFrame = questionModal.frame;
+    newFrame.size.width = newFrame.size.width * 0.8;
+    newFrame.size.height = newFrame.size.height * 0.6;
+    // And center the view:
+    newFrame.origin.x = ( ( questionModal.frame.size.width / 2 ) - ( newFrame.size.width / 2 ) );
+    newFrame.origin.y = ( ( questionModal.frame.size.height / 2 ) - ( newFrame.size.height / 2 ) );
+
+    BQAddQuestionView *newAddQuestionView = [[BQAddQuestionView alloc] initWithFrame:newFrame];
+    newAddQuestionView.delegate = self;
+    [newAddQuestionView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+
+    [questionModal addSubview:newAddQuestionView];
     
     self.modalWindow = questionModal;
     self.modalWindow.hidden = NO;
     
 }
 
-#pragma AddQuestionVCDelegate
+#pragma AddQuestionViewDelegate
 
 //hides question submission window and reloads question table
-- (void)addQuestionVCDidAddQuestion:(BQAddQuestionView *)sender
+- (void)addQuestionViewDidAddQuestion:(BQAddQuestionView *)sender
 {
-    
+    NSLog(@"Question submitted by view!");
     self.modalWindow.hidden = YES;
     [self loadObjects];
     
 }
 
 //just hides question submission window without reloading
-- (void)addQuestionVCDidCancel:(BQAddQuestionView *)sender
+- (void)addQuestionViewWasCanceled:(BQAddQuestionView *)sender
 {
     
+    NSLog(@"Question canceled by view!");
     self.modalWindow.hidden = YES;
     
 }
 
-
 @end
+
