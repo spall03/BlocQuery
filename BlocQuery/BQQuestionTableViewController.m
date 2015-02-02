@@ -48,6 +48,7 @@
         // The number of objects to show per page
         self.objectsPerPage = 25;
     }
+    
     return self;
 }
 
@@ -243,7 +244,7 @@
     
     NSLog(@"add a new question!");
     
-//    CGRect modalWindow = CGRectMake( [UIScreen mainScreen].bounds.origin.x, [UIScreen mainScreen].bounds.origin.y, 200, 200);
+
     
     UIWindow *questionModal = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     questionModal.backgroundColor = [UIColor clearColor];
@@ -272,10 +273,11 @@
 #pragma AddQuestionViewDelegate
 
 //hides question submission window and reloads question table
-- (void)addQuestionViewDidAddQuestion:(BQAddQuestionView *)sender
+- (void)addQuestionViewDidAddQuestion:(BQAddQuestionView *)sender withQuestionText:(NSString *)question
 {
     NSLog(@"Question submitted by view!");
     self.modalWindow.hidden = YES;
+    [[BQUser currentUser] addNewQuestion:question];
     [self loadObjects];
     
 }

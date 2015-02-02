@@ -21,6 +21,8 @@
 
 @end
 
+static UIFont *smallFont;
+
 @implementation BQAddQuestionView
 
 -(id)initWithFrame:(CGRect)frame
@@ -32,6 +34,7 @@
     {
         self.backgroundColor = [UIColor grayColor];
         self.layer.cornerRadius = 9.0f;
+        smallFont = [UIFont fontWithName:@"HelveticaNeue-Italic" size:8];
 
         
         //setup the top label for the window
@@ -54,11 +57,25 @@
         //setup the text field
         self.textView = [[UITextView alloc] init];
         self.textView.text = @"Write your question here.";
-        
+
         //setup the example label
         self.exampleQuestionLabel = [[UILabel alloc] init];
         self.exampleQuestionLabel.backgroundColor = [UIColor whiteColor];
-        self.exampleQuestionLabel.text = NSLocalizedString(@"Example question: how now, brown cow?", @"Example Question"); // FIXME: We'll want to adjust the number of lines we're showing and make it able to handle a wide variety of sample questions... or at least a small variety of them
+        self.exampleQuestionLabel.font = smallFont;
+        self.exampleQuestionLabel.numberOfLines = 0;
+        [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
+            
+            if (config)
+            {
+                NSString *sampleQuestion = config[@"BQSampleQuestion"];
+                self.exampleQuestionLabel.text = [NSString stringWithFormat:@"Sample question: %@", sampleQuestion];
+            }
+            else
+            {
+                NSLog(@"Sample question didn't load, and here's why: %@", error);
+                self.exampleQuestionLabel.text = @"Sample question: why didn't the sample question load properly?";
+            }
+        }];
 
         //add as subviews and setup for autolayout
         for (UIView *viewToAdd in @[self.cancelButton, self.addNewQuestionLabel, self.submitButton, self.textView, self.exampleQuestionLabel])
@@ -95,9 +112,8 @@
 
 -(void)submitButtonPressed:(id)sender
 {
-    // FIXME: Saving the data probably isn't best left in the view class... we might want to relocate this to our owning view controller... the BQQuestionTableViewController.
-    [[BQUser currentUser] addNewQuestion:self.textView.text];
-    [self.delegate addQuestionViewDidAddQuestion:self];
+
+    [self.delegate addQuestionViewDidAddQuestion:self withQuestionText:self.textView.text];
     
 }
 @end

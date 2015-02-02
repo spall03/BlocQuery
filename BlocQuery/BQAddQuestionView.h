@@ -14,7 +14,7 @@
 
 @optional
 
-- (void) addQuestionViewDidAddQuestion:(BQAddQuestionView*)sender;
+- (void) addQuestionViewDidAddQuestion:(BQAddQuestionView*)sender withQuestionText:(NSString*)question;
 - (void) addQuestionViewWasCanceled:(BQAddQuestionView*)sender;
 
 @end
