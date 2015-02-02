@@ -11,7 +11,6 @@
 #import "BQUser.h"
 #import "BQAnswerTableViewController.h"
 #import "PFTableViewCell.h"
-#import "BQAddQuestionViewController.h"
 #import "BQAddQuestionView.h"
 #import <Parse/Parse.h>
 
