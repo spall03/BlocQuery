@@ -58,7 +58,7 @@
         //setup the example label
         self.exampleQuestionLabel = [[UILabel alloc] init];
         self.exampleQuestionLabel.backgroundColor = [UIColor whiteColor];
-        self.exampleQuestionLabel.text = NSLocalizedString(@"Example question: how now, brown cow?", @"Example Question");
+        self.exampleQuestionLabel.text = NSLocalizedString(@"Example question: how now, brown cow?", @"Example Question"); // FIXME: We'll want to adjust the number of lines we're showing and make it able to handle a wide variety of sample questions... or at least a small variety of them
 
         //add as subviews and setup for autolayout
         for (UIView *viewToAdd in @[self.cancelButton, self.addNewQuestionLabel, self.submitButton, self.textView, self.exampleQuestionLabel])
