@@ -13,7 +13,7 @@
 
 @protocol BQAnswerQuestionViewDelegate <NSObject>
 
-- (void) answerQuestionViewDidAddAnswer:(BQAnswerQuestionView*)sender;
+- (void) answerQuestionViewDidAddAnswer:(BQAnswerQuestionView*)sender withAnswer:(NSString*)answerText;
 
 @end
 

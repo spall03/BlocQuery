@@ -12,6 +12,8 @@
 #import "BQAnswer.h"
 #import "BQQuestion.h"
 
+static NSString* kBQDidPostNewAnswerToQuestion = @"BQDidPostNewAnswerToQuestion";
+
 @interface BQUser ()
 
 @end
@@ -58,6 +60,8 @@
     [thisQuestion incrementKey:@"answerCount"];
     [thisQuestion save];
     
+    NSNotification* notification = [NSNotification notificationWithName:@"BQDidPostNewAnswerToQuestion" object:thisQuestion];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 //This user increments this answer's vote count.

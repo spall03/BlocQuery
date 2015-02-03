@@ -80,12 +80,22 @@
     //enable a button to go to the user's profile
     UIBarButtonItem *profileButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:nil action:nil];
     [self.navigationItem setLeftBarButtonItem:profileButton];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewAnswerToQuestion:) name:@"BQDidPostNewAnswerToQuestion" object:nil];
+}
+
+- (void) didReceiveNewAnswerToQuestion:(NSNotification*)notification
+{
+    NSLog(@"Did notice change to object: %@", notification.object);
+    
+    [self loadObjects];
+    
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

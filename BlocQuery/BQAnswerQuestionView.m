@@ -123,19 +123,19 @@
     [self layoutSubviews];
 }
 
+
+//TODO: move this stuff to BQQuestionTableViewController
 - (void)submitButtonPressed:(id)sender
 {
     
     NSLog(@"Submit comment!");
     
-    //invoke user method for adding new answers to questions
-    [[BQUser currentUser] addNewAnswer:self.textView.text toQuestion:self.question];
+    //need to then refresh the parent view controller
+    [self.delegate answerQuestionViewDidAddAnswer:self withAnswer:self.textView.text];
     
     //reset textfield and put it away
     self.textView.text = @"Answer here."; // TODO: Do you want this to override what the user has typed and maybe canceled? Do you want to leave their typed text if they cancel and then decide to try and re-answer?
     
-    //need to then refresh the parent view controller
-    [self.delegate answerQuestionViewDidAddAnswer:self];
     
     self.isAnswering = NO;
     [self layoutSubviews];

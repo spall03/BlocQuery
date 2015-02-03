@@ -11,6 +11,7 @@
 @class BQQuestion;
 @class BQAnswer;
 
+static NSString* kBQDidPostNewAnswerToQuestion;
 
 @interface BQUser : PFUser<PFSubclassing>
 

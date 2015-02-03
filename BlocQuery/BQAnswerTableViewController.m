@@ -10,6 +10,7 @@
 #import "BQAnswerQuestionView.h"
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
+#import "BQUser.h"
 
 @interface BQAnswerTableViewController () <BQAnswerQuestionViewDelegate>
 
@@ -274,8 +275,12 @@
 #pragma BQAnswerQuestionViewDelegate
 
 //reload query table when the user adds a new answer to a question
-- (void)answerQuestionViewDidAddAnswer:(BQAnswerQuestionView *)sender
-{    
+- (void)answerQuestionViewDidAddAnswer:(BQAnswerQuestionView *)sender withAnswer:(NSString *)answerText
+{
+    
+    //invoke user method for adding new answers to questions
+    [[BQUser currentUser] addNewAnswer:answerText toQuestion:self.question];
+    
     [self loadObjects];
     
 }
