@@ -7,18 +7,27 @@
 //
 
 #import "BQQuestionTableViewController.h"
+#import "BQQuestion.h"
+#import "BQUser.h"
+#import "BQAnswerTableViewController.h"
 #import "PFTableViewCell.h"
+#import "BQAddQuestionView.h"
 #import <Parse/Parse.h>
 
-@interface BQQuestionTableViewController ()
+@interface BQQuestionTableViewController () <BQAddQuestionViewDelegate>
+
+@property (nonatomic, strong) BQUser *user;
+@property (nonatomic, strong) UIWindow *modalWindow;
 
 @end
 
 @implementation BQQuestionTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style {
+- (id)initWithStyle:(UITableViewStyle)style
+{
     self = [super initWithStyle:style];
-    if (self) {
+    if ( self )
+    {
         // Custom the table
         
         // The className to query on
@@ -39,10 +48,12 @@
         // The number of objects to show per page
         self.objectsPerPage = 25;
     }
+    
     return self;
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
@@ -52,37 +63,41 @@
 
 #pragma mark - UIViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.user = [BQUser currentUser];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //add a welcome message for the user
+    NSString *titleString = [NSString stringWithFormat:@"Questions"];
+    [self setTitle:titleString];
+    
+    //enable a button for adding new questions
+    UIBarButtonItem *addQuestionButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewQuestion:)];
+    [self.navigationItem setRightBarButtonItem:addQuestionButton];
+    
+    //enable a button to go to the user's profile
+    UIBarButtonItem *profileButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:nil action:nil];
+    [self.navigationItem setLeftBarButtonItem:profileButton];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewAnswerToQuestion:) name:@"BQDidPostNewAnswerToQuestion" object:nil];
+}
+
+- (void) didReceiveNewAnswerToQuestion:(NSNotification*)notification
+{
+    NSLog(@"Did notice change to object: %@", notification.object);
+    
+    [self loadObjects];
+    
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
@@ -92,13 +107,15 @@
 
 #pragma mark - PFQueryTableViewController
 
-- (void)objectsWillLoad {
+- (void)objectsWillLoad
+{
     [super objectsWillLoad];
     
     // This method is called before a PFQuery is fired to get more objects
 }
 
-- (void)objectsDidLoad:(NSError *)error {
+- (void)objectsDidLoad:(NSError *)error
+{
     [super objectsDidLoad:error];
     
     // This method is called every time objects are loaded from Parse via the PFQuery
@@ -135,7 +152,7 @@
      
      PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-     if (cell == nil)
+     if ( cell == nil )
      {
          cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
      }
@@ -145,8 +162,6 @@
      cell.textLabel.text = [object objectForKey:self.textKey];
      cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %@",
                                  object[@"answerCount"]];
-    
-    
     
      return cell;
  }
@@ -215,10 +230,76 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//open up a table of answers when a question is selected by the user.
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    // TODO: Add code to push a BQAnswerContainerViewController.
+    
+    //get the question the user tapped
+    BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
+    
+    //create a new answerview container
+    BQAnswerTableViewController *answerViewContainer = [[BQAnswerTableViewController alloc] initWithQuestion:answerviewQuestion];
+    
+    //and push it onto the stack
+    [self.navigationController pushViewController:answerViewContainer animated:YES];
+    
+    
 }
 
+#pragma - adding new questions
+
+- (void) addNewQuestion:(id)sender
+{
+    
+    NSLog(@"add a new question!");
+    
+
+    
+    UIWindow *questionModal = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    questionModal.backgroundColor = [UIColor clearColor];
+    
+    // FIXME: Handle device rotation
+    questionModal.windowLevel = UIWindowLevelAlert;
+    
+    CGRect newFrame = questionModal.frame;
+    newFrame.size.width = newFrame.size.width * 0.8;
+    newFrame.size.height = newFrame.size.height * 0.6;
+    // And center the view:
+    newFrame.origin.x = ( ( questionModal.frame.size.width / 2 ) - ( newFrame.size.width / 2 ) );
+    newFrame.origin.y = ( ( questionModal.frame.size.height / 2 ) - ( newFrame.size.height / 2 ) );
+
+    BQAddQuestionView *newAddQuestionView = [[BQAddQuestionView alloc] initWithFrame:newFrame];
+    newAddQuestionView.delegate = self;
+    [newAddQuestionView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+
+    [questionModal addSubview:newAddQuestionView];
+    
+    self.modalWindow = questionModal;
+    self.modalWindow.hidden = NO;
+    
+}
+
+#pragma AddQuestionViewDelegate
+
+//hides question submission window and reloads question table
+- (void)addQuestionViewDidAddQuestion:(BQAddQuestionView *)sender withQuestionText:(NSString *)question
+{
+    NSLog(@"Question submitted by view!");
+    self.modalWindow.hidden = YES;
+    [[BQUser currentUser] addNewQuestion:question];
+    [self loadObjects];
+    
+}
+
+//just hides question submission window without reloading
+- (void)addQuestionViewWasCanceled:(BQAddQuestionView *)sender
+{
+    
+    NSLog(@"Question canceled by view!");
+    self.modalWindow.hidden = YES;
+    
+}
 
 @end
+

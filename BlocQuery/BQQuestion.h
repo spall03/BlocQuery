@@ -7,16 +7,18 @@
 //
 
 #import <Parse/Parse.h>
+#import "BQAnswer.h"
 
 @class BQUser;
+
 
 @interface BQQuestion : PFObject<PFSubclassing>
 
 @property (retain) NSString *user;
 @property (retain) NSString *questionText;
 @property (retain) NSArray *answers;
-@property int answerCount;
+@property int answerCount; // TODO: Why the answersCount property? Why not just use self.answers.count?
 
- + (NSString *)parseClassName;
++ (NSString *)parseClassName;
 
 @end

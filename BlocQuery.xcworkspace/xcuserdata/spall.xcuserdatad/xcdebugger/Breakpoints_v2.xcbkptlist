@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BlocQuery/AppDelegate.m"
-            timestampString = "443741057.375608"
+            filePath = "BlocQuery/BQUser.m"
+            timestampString = "444691060.526896"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "-logInViewController:didLogInUser:"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "-addNewAnswer:toQuestion:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BlocQuery/AppDelegate.m"
-            timestampString = "443741554.431561"
+            filePath = "BlocQuery/BQQuestionTableViewController.m"
+            timestampString = "444691091.462145"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "-signUpViewController:didSignUpUser:"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "-didReceiveNewAnswerToQuestion:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BlocQuery/BQQuestionTableViewController.m"
+            timestampString = "444691353.781493"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

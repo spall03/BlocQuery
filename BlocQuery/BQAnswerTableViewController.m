@@ -7,14 +7,42 @@
 //
 
 #import "BQAnswerTableViewController.h"
+#import "BQAnswerQuestionView.h"
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
+#import "BQUser.h"
 
-@interface BQAnswerTableViewController ()
+@interface BQAnswerTableViewController () <BQAnswerQuestionViewDelegate>
 
 @end
 
 @implementation BQAnswerTableViewController
+
+- (instancetype)initWithQuestion:(BQQuestion*)question
+{
+    self = [super init];
+    if ( self )
+    {
+        self.question = question;
+        //display the questioner in the title bar
+        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.user]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
+        //             NSString* username = ( !self.question.user ) ? @"A user": self.question.user;
+        //             NSString *titleString = [NSString stringWithFormat:@"%@ asks:", username];
+        [self setTitle:titleString];
+        
+        //enable a button to add a new answer to the question
+        UIBarButtonItem *addAnswerButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didPressAddAnswerButton:)];
+        [self.navigationItem setRightBarButtonItem:addAnswerButton ];
+        
+        BQAnswerQuestionView* answerView = [[BQAnswerQuestionView alloc] initWithFrame:CGRectMake(0.0, 0.0, 100, 100) andQuestion:question];
+        self.answerView = answerView;
+        self.answerView.delegate = self;
+        
+        [self.view setBackgroundColor:[UIColor whiteColor]];
+
+    }
+    return self;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
@@ -52,7 +80,8 @@
 
 #pragma mark - UIViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -217,11 +246,43 @@
  }
  */
 
+- (void)didPressAddAnswerButton:(id)sender
+{
+   
+   //cause our answerQuestionView to expand its text window...
+    [self.answerView startTextEditing];
+    
+}
+
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+    
+    
 }
 
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return self.answerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return ( self.answerView.frame.size.height + 10 );
+}
+
+#pragma BQAnswerQuestionViewDelegate
+
+//reload query table when the user adds a new answer to a question
+- (void)answerQuestionViewDidAddAnswer:(BQAnswerQuestionView *)sender withAnswer:(NSString *)answerText
+{
+    
+    //invoke user method for adding new answers to questions
+    [[BQUser currentUser] addNewAnswer:answerText toQuestion:self.question];
+    
+    [self loadObjects];
+    
+}
 
 @end

@@ -9,6 +9,8 @@
 #import "BQLoginViewController.h"
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "BQQuestion.h"
+#import "BQAnswer.h"
 
 @interface BQLoginViewController ()
 
@@ -16,10 +18,11 @@
 
 @implementation BQLoginViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    UIImage *logoImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BQLogo" ofType:@".png"]];
+    UIImage *logoImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BQLogo" ofType:@"png"]];
     UIImageView *BQLogo = [[UIImageView alloc] initWithImage:logoImage];
 
     //set up our custom BQ logo
@@ -28,7 +31,8 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
