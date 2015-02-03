@@ -11,14 +11,15 @@
 @class BQQuestion;
 @class BQAnswer;
 
+static NSString* kBQDidPostNewAnswerToQuestion;
 
 @interface BQUser : PFUser<PFSubclassing>
 
 @property (retain) NSString *userDescription;
 @property (retain) PFFile *userImage;
 
-- (BQQuestion *)addNewQuestion:(NSString *)question;
-- (BQAnswer *)addNewAnswer:(NSString *)answer toQuestion:(BQQuestion *)question;
+- (void)addNewQuestion:(NSString *)question;
+- (void)addNewAnswer:(NSString *)answer toQuestion:(BQQuestion *)question;
 - (void)likeAnswer:(BQAnswer *)answer;
 
 @end

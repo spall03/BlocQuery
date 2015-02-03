@@ -7,8 +7,10 @@
 //
 
 #import <Parse/Parse.h>
+#import "BQAnswer.h"
 
 @class BQUser;
+
 
 @interface BQQuestion : PFObject<PFSubclassing>
 

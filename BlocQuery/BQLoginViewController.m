@@ -9,6 +9,8 @@
 #import "BQLoginViewController.h"
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "BQQuestion.h"
+#import "BQAnswer.h"
 
 @interface BQLoginViewController ()
 

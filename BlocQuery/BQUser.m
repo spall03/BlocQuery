@@ -12,6 +12,8 @@
 #import "BQAnswer.h"
 #import "BQQuestion.h"
 
+static NSString* kBQDidPostNewAnswerToQuestion = @"BQDidPostNewAnswerToQuestion";
+
 @interface BQUser ()
 
 @end
@@ -29,7 +31,7 @@
 }
 
 //This user adds a new question.
-- (BQQuestion*)addNewQuestion:(NSString *)question
+- (void)addNewQuestion:(NSString *)question
 {
     BQQuestion* newQuestion = [BQQuestion object];
     
@@ -38,23 +40,28 @@
     newQuestion.answers = nil; //no answers to the question yet
     newQuestion.answerCount = 0;
     
-    return newQuestion;
+    [newQuestion save];
 }
 
 //This user adds a new answer to this question.
-- (BQAnswer*)addNewAnswer:(NSString *)answer toQuestion:(BQQuestion *)thisQuestion
+- (void)addNewAnswer:(NSString *)answer toQuestion:(BQQuestion *)thisQuestion
 {
-    BQAnswer* newAnswer = [BQAnswer object];
     
-    newAnswer.user = self.username; //This user provided the answer
+    //create, fill out, and save the new answer
+    BQAnswer* newAnswer = [BQAnswer object];
+//    newAnswer.user = [BQUser currentUser]; //FIXME: Parse won't save correctly due to pointer conflict
     newAnswer.answerText = answer;
     newAnswer.question = thisQuestion;
     newAnswer.votes = 0; //no votes yet
+    [newAnswer save];
     
-    thisQuestion.answerCount++; //increment number of answers to this question. don't think this will work, though...???
-                                // TODO: Do we need an answerCount property at all? Should we just use thisQuestion.answers.count?
+    //associate the answer with this question, increment answer count, and save the question.
+    [thisQuestion addObject:newAnswer forKey:@"answers"];
+    [thisQuestion incrementKey:@"answerCount"];
+    [thisQuestion save];
     
-    return newAnswer;
+    NSNotification* notification = [NSNotification notificationWithName:@"BQDidPostNewAnswerToQuestion" object:thisQuestion];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 //This user increments this answer's vote count.
