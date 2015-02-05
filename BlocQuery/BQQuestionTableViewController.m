@@ -12,6 +12,7 @@
 #import "BQAnswerTableViewController.h"
 #import "PFTableViewCell.h"
 #import "BQAddQuestionView.h"
+#import "BQProfileViewController.h"
 #import <Parse/Parse.h>
 
 @interface BQQuestionTableViewController () <BQAddQuestionViewDelegate>
@@ -78,8 +79,10 @@
     [self.navigationItem setRightBarButtonItem:addQuestionButton];
     
     //enable a button to go to the user's profile
-    UIBarButtonItem *profileButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:nil action:nil];
+    UIBarButtonItem *profileButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(goToProfile:)];
     [self.navigationItem setLeftBarButtonItem:profileButton];
+    
+    //listening for new answers to questions, in order to update the number of answers
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewAnswerToQuestion:) name:@"BQDidPostNewAnswerToQuestion" object:nil];
 }
 
@@ -277,6 +280,18 @@
     
     self.modalWindow = questionModal;
     self.modalWindow.hidden = NO;
+    
+}
+
+#pragma - going to profile view
+
+- (void) goToProfile:(id)sender
+{
+    
+    BQProfileViewController *profileViewController = [[BQProfileViewController alloc]initWithUser:[BQUser currentUser]]; //the profile button always takes you to YOUR profile
+    
+    [self.navigationController pushViewController:profileViewController animated:YES];
+    
     
 }
 
