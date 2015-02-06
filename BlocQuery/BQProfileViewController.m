@@ -15,8 +15,6 @@
 @interface BQProfileViewController ()
 
 @property (nonatomic, strong) BQUser *user;
-//@property (nonatomic, strong) PFFile *userImage;
-//@property (nonatomic, strong) NSString *userDescription;
 @property (nonatomic, strong) NSString *placeholderDescription;
 @property BOOL isCurrentUser;
 
@@ -26,9 +24,16 @@
 @property (nonatomic, strong) UIButton *editUserImageButton;
 @property (nonatomic, strong) UIButton *editUserDescriptionButton;
 
+@property (nonatomic, strong) NSLayoutConstraint *leftConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *rightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *leftButtonConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *rightButtonConstraint;
+
 @end
 
 @implementation BQProfileViewController
+
+//static int profilePicSize = 128;
 
 - (instancetype)initWithUser:(BQUser*)user
 {
@@ -141,7 +146,9 @@
 
 
     [self.view addSubview:self.userDescriptionTextView];
+    self.userDescriptionTextView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.userImageView];
+    self.userImageView.translatesAutoresizingMaskIntoConstraints = NO;
     
     //enable editing buttons if you're looking at your own profile
     if (self.isCurrentUser)
@@ -155,7 +162,9 @@
         [self.editUserDescriptionButton addTarget:self action:@selector(editDescriptionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.view addSubview:self.editUserImageButton];
+        self.editUserImageButton.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addSubview:self.editUserDescriptionButton];
+        self.editUserDescriptionButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
 
 }
@@ -165,24 +174,43 @@
 {
     [super viewDidLayoutSubviews];
     
+    //user photo size set to 128x128 by default
+    //self.userImageView.frame = CGRectMake(0, 0, profilePicSize, profilePicSize);
+    
     //set text field's frame and reveal it
-    self.userDescriptionTextView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 200);
+    //self.userDescriptionTextView.frame = CGRectMake(0, 0, self.view.bounds.size.width - profilePicSize, 200);
     self.userDescriptionTextView.backgroundColor = [UIColor lightGrayColor];
     self.userDescriptionTextView.hidden = NO;
     self.userDescriptionTextView.userInteractionEnabled = NO; //need to hit edit button first
     
-    self.userImageView.frame = CGRectMake(0, 200, self.view.bounds.size.width, 200);
+    //set button frames and hide them unless you are editing your own profile
+//    self.editUserImageButton.frame = CGRectMake(0, 0, 100, 100);
+//    self.editUserDescriptionButton.frame = CGRectMake(0, 0, 100, 100);
+//    [self.editUserImageButton sizeToFit];
+//    [self.editUserDescriptionButton sizeToFit];
+
     
     if (self.isCurrentUser)
     {
-    
-        self.editUserImageButton.frame = CGRectMake(100, 400, 100, 100);
-        self.editUserDescriptionButton.frame = CGRectMake(100, 500, 100, 100);
-        
-        [self.editUserImageButton sizeToFit];
-        [self.editUserDescriptionButton sizeToFit];
-    
+        self.editUserImageButton.hidden = NO;
+        self.editUserDescriptionButton.hidden = NO;
     }
+    
+    NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_userImageView, _userDescriptionTextView, _editUserDescriptionButton, _editUserImageButton  );
+    //NSDictionary *metrics = @{@"padding":@10.0};
+    
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_userImageView(==128)][_userDescriptionTextView]|" options:kNilOptions metrics:nil views:viewDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_editUserImageButton][_editUserDescriptionButton]|" options:kNilOptions metrics:nil views:viewDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=20)-[_userImageView(==128)]-[_editUserImageButton(==100)]-(>=20)-|" options:kNilOptions metrics:nil views:viewDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(>=20)-[_userDescriptionTextView(==128)]-[_editUserDescriptionButton(==100)]-(>=20)-|" options:kNilOptions metrics:nil views:viewDictionary]];
+    
+    self.leftConstraint = [NSLayoutConstraint constraintWithItem:self.userImageView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1 constant:0];
+    self.rightConstraint = [NSLayoutConstraint constraintWithItem:self.userDescriptionTextView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterY multiplier:1 constant:0];
+    self.leftButtonConstraint = [NSLayoutConstraint constraintWithItem:self.editUserImageButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.userImageView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
+    self.rightButtonConstraint = [NSLayoutConstraint constraintWithItem:self.editUserDescriptionButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.userDescriptionTextView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0];
+    
+    [self.view addConstraints:@[self.leftConstraint, self.rightConstraint, self.leftButtonConstraint, self.rightButtonConstraint]];
     
     
     
