@@ -16,7 +16,9 @@
 
 @property (nonatomic, strong) BQUser *user;
 @property (nonatomic, strong) NSString *placeholderDescription;
+
 @property BOOL isCurrentUser;
+@property BOOL userTextIsBeingEdited;
 
 @property (nonatomic, strong) PFImageView *userImageView;
 @property (nonatomic, strong) UIImage *placeholderImage;
@@ -76,7 +78,7 @@
     
     
     //try to load the user's info from the cloud
-    PFQuery *userQuery = [PFUser query];
+    PFQuery *userQuery = [BQUser query];
     [userQuery whereKey:@"username" equalTo:self.user.username];
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
      {
@@ -88,10 +90,10 @@
              BQUser *temp = objects[0];
              
              //if it works and user already has a description, load that description into the textview
-             if (![temp[@"additional"] isEqual: @""])
+             if (![temp[@"userDescription"] isEqual: @""])
              {
                  NSLog(@"User description exists");
-                 self.userDescriptionTextView.text = temp[@"additional"];
+                 self.userDescriptionTextView.text = temp[@"userDescription"];
              }
              
 
@@ -136,6 +138,7 @@
     
     self.title = [NSString stringWithFormat: @"%@'s User Profile", self.user.username];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.userTextIsBeingEdited = NO;
     
     self.userDescriptionTextView = [[UITextView alloc]init];
     self.userDescriptionTextView.text = @"Loading...";
@@ -181,7 +184,7 @@
     //self.userDescriptionTextView.frame = CGRectMake(0, 0, self.view.bounds.size.width - profilePicSize, 200);
     self.userDescriptionTextView.backgroundColor = [UIColor lightGrayColor];
     self.userDescriptionTextView.hidden = NO;
-    self.userDescriptionTextView.userInteractionEnabled = NO; //need to hit edit button first
+//    self.userDescriptionTextView.userInteractionEnabled = NO; //FIXME: enabling this default behavior here breaks making text editable when button pressed. very odd.
     
     //set button frames and hide them unless you are editing your own profile
 //    self.editUserImageButton.frame = CGRectMake(0, 0, 100, 100);
@@ -233,10 +236,32 @@
     
 }
 
+//enable user interaction, switch button state and title, send description
 -(void) editDescriptionButtonPressed:(id)sender
 {
     
-    NSLog(@"Edit description pressed!");
+    if (!self.userTextIsBeingEdited)
+    {
+        NSLog(@"Edit description pressed!");
+        self.userDescriptionTextView.text = @"";
+        self.userDescriptionTextView.userInteractionEnabled = YES;
+        [self.editUserDescriptionButton setTitle:@"Done Editing" forState:UIControlStateNormal];
+        self.userTextIsBeingEdited = YES;
+    }
+    else
+    {
+        NSLog(@"Submit new description!");
+        self.userDescriptionTextView.userInteractionEnabled = NO;
+        [self.editUserDescriptionButton setTitle:@"Edit Description" forState:UIControlStateNormal];
+        self.userTextIsBeingEdited = NO;
+        
+        //set new user description and save to cloud
+        self.user.userDescription = self.userDescriptionTextView.text;
+        [self.user saveInBackground];
+        
+    }
+
+    
     
     
 }

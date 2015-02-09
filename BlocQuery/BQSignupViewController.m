@@ -22,7 +22,7 @@
     UIImageView *signupLogo = [[UIImageView alloc] initWithImage:logoImage];
     
     //enable user description field at signup
-    [self.signUpView.additionalField setPlaceholder:@"Describe yourself"];
+    //[self.signUpView.additionalField setPlaceholder:@"Describe yourself"];
     
     //customize logo
     [self.signUpView setLogo:signupLogo];
