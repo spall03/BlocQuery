@@ -10,9 +10,10 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 #import "BQUser.h"
+#import "BQImageLibraryCollectionViewController.h"
 
 
-@interface BQProfileViewController ()
+@interface BQProfileViewController () <BQImageLibraryViewControllerDelegate>
 
 @property (nonatomic, strong) BQUser *user;
 @property (nonatomic, strong) NSString *placeholderDescription;
@@ -232,7 +233,9 @@
 {
     
     NSLog(@"Edit image pressed!");
-    
+    BQImageLibraryCollectionViewController *libraryVC = [[BQImageLibraryCollectionViewController alloc]init];
+    libraryVC.delegate = self;
+    [self.navigationController pushViewController:libraryVC animated:YES];
     
 }
 
@@ -264,6 +267,58 @@
     
     
     
+}
+
+#pragma BQImageLibraryCollectionViewController delegate
+
+- (void) imageLibraryViewController:(BQImageLibraryCollectionViewController *) controller didCompleteWithImage:(UIImage *)image
+{
+    if (image == nil)
+    {
+        NSLog(@"cancel button pressed!");
+        [self.navigationController popToViewController:self animated:YES];
+    }
+    
+    else
+    {
+        
+        NSLog(@"image selected: %@", image.description);
+        [self.navigationController popToViewController:self animated:YES];
+        
+        //first, make the image the right size
+        UIImage *resizedImage;
+        
+        CGSize newSize = CGSizeMake(128, 128);
+        
+        UIGraphicsBeginImageContext(newSize);
+        [image drawInRect:CGRectMake(0, 0, 128, 128)];
+        
+        resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        //second, make the image a PFFile
+        NSData *tempData = UIImagePNGRepresentation(resizedImage);
+        PFFile *newProfileImage = [PFFile fileWithData:tempData];
+        
+        //third, upload the new image to the cloud
+        self.user.userImage = newProfileImage;
+        [self.user saveInBackground];
+        
+        //fourth, reset the user's image locally
+        self.userImageView.file = newProfileImage;
+        [self.userImageView setNeedsDisplay]; //FIXME: I'm trying to force this to redraw
+        
+
+        
+
+        
+        
+//        UIImage *temp = controller.selectedImage;
+
+//        [newProfileImage save];
+//        
+
+    }
 }
 
 
