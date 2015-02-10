@@ -10,6 +10,7 @@
 		A33F8EC71C351629DA0B66D4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49864A83E0922D1EA3105D93 /* libPods.a */; };
 		C611C2E21A783625006A67E2 /* BQAnswerQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C611C2E11A783625006A67E2 /* BQAnswerQuestionView.m */; };
 		C611C2EB1A7C19B6006A67E2 /* BQAddQuestionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C611C2EA1A7C19B6006A67E2 /* BQAddQuestionView.m */; };
+		C611C2F11A817E75006A67E2 /* BQProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C611C2F01A817E75006A67E2 /* BQProfileViewController.m */; };
 		C68E3B851A65C57500D0D4B5 /* BQUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C68E3B841A65C57500D0D4B5 /* BQUser.m */; };
 		C6C1A2A51A647A2E0094AF29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C1A2A41A647A2E0094AF29 /* main.m */; };
 		C6C1A2A81A647A2E0094AF29 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C1A2A71A647A2E0094AF29 /* AppDelegate.m */; };
@@ -29,6 +30,7 @@
 		C6C1A2DD1A647E3E0094AF29 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6C1A2DC1A647E3E0094AF29 /* SystemConfiguration.framework */; };
 		C6C1A2DF1A647E540094AF29 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C6C1A2DE1A647E540094AF29 /* libz.dylib */; };
 		C6C1A2E11A647E5F0094AF29 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C6C1A2E01A647E5F0094AF29 /* libsqlite3.dylib */; };
+		C6C1AEDB1A8961F1006FF6E6 /* BQImageLibraryCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C1AEDA1A8961F1006FF6E6 /* BQImageLibraryCollectionViewController.m */; };
 		C6D1425B1A6738E400AF2E05 /* seal.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D1425A1A6738E400AF2E05 /* seal.png */; };
 		C6D1425E1A673DBE00AF2E05 /* BQLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D1425D1A673DBE00AF2E05 /* BQLoginViewController.m */; };
 		C6D142601A67448600AF2E05 /* BQLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D1425F1A67448600AF2E05 /* BQLogo.png */; };
@@ -58,6 +60,8 @@
 		C611C2E11A783625006A67E2 /* BQAnswerQuestionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAnswerQuestionView.m; sourceTree = "<group>"; };
 		C611C2E91A7C19B6006A67E2 /* BQAddQuestionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAddQuestionView.h; sourceTree = "<group>"; };
 		C611C2EA1A7C19B6006A67E2 /* BQAddQuestionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAddQuestionView.m; sourceTree = "<group>"; };
+		C611C2EF1A817E75006A67E2 /* BQProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQProfileViewController.h; sourceTree = "<group>"; };
+		C611C2F01A817E75006A67E2 /* BQProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQProfileViewController.m; sourceTree = "<group>"; };
 		C68E3B831A65C57500D0D4B5 /* BQUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQUser.h; sourceTree = "<group>"; };
 		C68E3B841A65C57500D0D4B5 /* BQUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQUser.m; sourceTree = "<group>"; };
 		C6C1A29F1A647A2E0094AF29 /* BlocQuery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlocQuery.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +88,8 @@
 		C6C1A2DC1A647E3E0094AF29 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C6C1A2DE1A647E540094AF29 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C6C1A2E01A647E5F0094AF29 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		C6C1AED91A8961F1006FF6E6 /* BQImageLibraryCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQImageLibraryCollectionViewController.h; sourceTree = "<group>"; };
+		C6C1AEDA1A8961F1006FF6E6 /* BQImageLibraryCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQImageLibraryCollectionViewController.m; sourceTree = "<group>"; };
 		C6D1425A1A6738E400AF2E05 /* seal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = seal.png; sourceTree = "<group>"; };
 		C6D1425C1A673DBE00AF2E05 /* BQLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQLoginViewController.h; sourceTree = "<group>"; };
 		C6D1425D1A673DBE00AF2E05 /* BQLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQLoginViewController.m; sourceTree = "<group>"; };
@@ -175,6 +181,10 @@
 				C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */,
 				C6D671391A70845500446B34 /* BQAnswerTableViewController.h */,
 				C6D6713A1A70845500446B34 /* BQAnswerTableViewController.m */,
+				C611C2EF1A817E75006A67E2 /* BQProfileViewController.h */,
+				C611C2F01A817E75006A67E2 /* BQProfileViewController.m */,
+				C6C1AED91A8961F1006FF6E6 /* BQImageLibraryCollectionViewController.h */,
+				C6C1AEDA1A8961F1006FF6E6 /* BQImageLibraryCollectionViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -408,6 +418,8 @@
 				C6D6713B1A70845500446B34 /* BQAnswerTableViewController.m in Sources */,
 				C6C1A2AB1A647A2E0094AF29 /* ViewController.m in Sources */,
 				C6D142631A67467200AF2E05 /* BQSignupViewController.m in Sources */,
+				C6C1AEDB1A8961F1006FF6E6 /* BQImageLibraryCollectionViewController.m in Sources */,
+				C611C2F11A817E75006A67E2 /* BQProfileViewController.m in Sources */,
 				C6D671351A6F2E1C00446B34 /* BQQuestionTableViewController.m in Sources */,
 				C68E3B851A65C57500D0D4B5 /* BQUser.m in Sources */,
 				C6C1A2A81A647A2E0094AF29 /* AppDelegate.m in Sources */,
