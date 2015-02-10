@@ -36,7 +36,7 @@
     loginController.delegate = self;
     
     BQSignupViewController *signupController = [[BQSignupViewController alloc] init];
-    [signupController setFields:PFSignUpFieldsDefault | PFSignUpFieldsAdditional];
+    [signupController setFields:PFSignUpFieldsDefault];
     [signupController setDelegate:self]; //not sure why it doesn't like this...?
     
     [loginController setSignUpController:signupController];
