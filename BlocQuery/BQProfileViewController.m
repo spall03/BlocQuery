@@ -76,8 +76,6 @@
 //attempt to load user data from cloud. if no user data, load defaults from config
 - (void) loadData
 {
-    
-    
     //try to load the user's info from the cloud
     PFQuery *userQuery = [BQUser query];
     [userQuery whereKey:@"username" equalTo:self.user.username];
@@ -141,11 +139,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.userTextIsBeingEdited = NO;
     
-    self.userDescriptionTextView = [[UITextView alloc]init];
+    self.userDescriptionTextView = [[UITextView alloc] init];
     self.userDescriptionTextView.text = @"Loading...";
     
     //set the user image's default and actual values, then pull actual from cloud
-    self.userImageView = [[PFImageView alloc]init];
+    self.userImageView = [[PFImageView alloc] init];
     self.userImageView.image = self.placeholderImage;
 
 
@@ -233,7 +231,7 @@
 {
     
     NSLog(@"Edit image pressed!");
-    BQImageLibraryCollectionViewController *libraryVC = [[BQImageLibraryCollectionViewController alloc]init];
+    BQImageLibraryCollectionViewController *libraryVC = [[BQImageLibraryCollectionViewController alloc] init];
     libraryVC.delegate = self;
     [self.navigationController pushViewController:libraryVC animated:YES];
     
@@ -302,22 +300,19 @@
         
         //third, upload the new image to the cloud
         self.user.userImage = newProfileImage;
-        [self.user saveInBackground];
-        
-        //fourth, reset the user's image locally
-        self.userImageView.file = newProfileImage;
-        [self.userImageView setNeedsDisplay]; //FIXME: I'm trying to force this to redraw
-        
-
-        
-
-        
-        
-//        UIImage *temp = controller.selectedImage;
-
-//        [newProfileImage save];
-//        
-
+        [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+         {
+             if ( succeeded )
+             {
+                 //fourth, reset the user's image locally
+                 self.userImageView.file = newProfileImage;
+                 [self.userImageView loadInBackground];
+             }
+             else
+             {
+                 NSLog( @"Error: We could not save our new profile image. %@", error );
+             }
+         }];
     }
 }
 
