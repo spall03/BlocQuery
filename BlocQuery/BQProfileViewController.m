@@ -302,11 +302,21 @@
         
         //third, upload the new image to the cloud
         self.user.userImage = newProfileImage;
-        [self.user saveInBackground];
+        [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
+         {
+             if ( succeeded )
+             {
+                 //fourth, reset the user's image locally
+                 self.userImageView.file = newProfileImage;
+                 [self.userImageView loadInBackground];
+             }
+             else
+             {
+                 NSLog( @"Error: We could not save our new profile image. %@", error );
+             }
+         }];
         
-        //fourth, reset the user's image locally
-        self.userImageView.file = newProfileImage;
-        [self.userImageView setNeedsDisplay]; //FIXME: I'm trying to force this to redraw
+ 
         
 
         
