@@ -11,6 +11,7 @@
 #import <ParseUI/ParseUI.h>
 #import "BQUser.h"
 #import "BQImageLibraryCollectionViewController.h"
+#import "BQLoginViewController.h"
 
 
 @interface BQProfileViewController () <BQImageLibraryViewControllerDelegate>
@@ -36,7 +37,6 @@
 
 @implementation BQProfileViewController
 
-//static int profilePicSize = 128;
 
 - (instancetype)initWithUser:(BQUser*)user
 {
@@ -47,7 +47,7 @@
         self.user = user;
     }
     
-    //load up the config file to get default values
+    //load up the config file to get default image and text
     PFConfig *config = [PFConfig getConfig];
     PFFile *tempImageFile = config[@"BQDefaultUserImage"];
     NSData *tempImageData = [tempImageFile getData];
@@ -154,21 +154,27 @@
     [self.view addSubview:self.userImageView];
     self.userImageView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    //enable editing buttons if you're looking at your own profile
+    //make profile editing buttons and leave them hidden by default
+    self.editUserImageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.editUserImageButton setTitle:@"Change Photo" forState:UIControlStateNormal];
+    [self.editUserImageButton addTarget:self action:@selector(editImageButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.editUserImageButton.hidden = YES;
+    
+    self.editUserDescriptionButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [self.editUserDescriptionButton setTitle:@"Edit Description" forState:UIControlStateNormal];
+    [self.editUserDescriptionButton addTarget:self action:@selector(editDescriptionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.editUserDescriptionButton.hidden = YES;
+    
+    [self.view addSubview:self.editUserImageButton];
+    self.editUserImageButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:self.editUserDescriptionButton];
+    self.editUserDescriptionButton.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    //enable logout button if you're looking at your own profile
     if (self.isCurrentUser)
     {
-        self.editUserImageButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.editUserImageButton setTitle:@"Change Photo" forState:UIControlStateNormal];
-        [self.editUserImageButton addTarget:self action:@selector(editImageButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.editUserDescriptionButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [self.editUserDescriptionButton setTitle:@"Edit Description" forState:UIControlStateNormal];
-        [self.editUserDescriptionButton addTarget:self action:@selector(editDescriptionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.view addSubview:self.editUserImageButton];
-        self.editUserImageButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addSubview:self.editUserDescriptionButton];
-        self.editUserDescriptionButton.translatesAutoresizingMaskIntoConstraints = NO;
+        UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleDone target:self action:@selector(logoutButtonPressed:)];
+        [self.navigationItem setRightBarButtonItem:logoutButton];
     }
 
 }
@@ -178,22 +184,13 @@
 {
     [super viewDidLayoutSubviews];
     
-    //user photo size set to 128x128 by default
-    //self.userImageView.frame = CGRectMake(0, 0, profilePicSize, profilePicSize);
-    
+
     //set text field's frame and reveal it
-    //self.userDescriptionTextView.frame = CGRectMake(0, 0, self.view.bounds.size.width - profilePicSize, 200);
     self.userDescriptionTextView.backgroundColor = [UIColor lightGrayColor];
     self.userDescriptionTextView.hidden = NO;
-//    self.userDescriptionTextView.userInteractionEnabled = NO; //FIXME: enabling this default behavior here breaks making text editable when button pressed. very odd.
-    
-    //set button frames and hide them unless you are editing your own profile
-//    self.editUserImageButton.frame = CGRectMake(0, 0, 100, 100);
-//    self.editUserDescriptionButton.frame = CGRectMake(0, 0, 100, 100);
-//    [self.editUserImageButton sizeToFit];
-//    [self.editUserDescriptionButton sizeToFit];
 
-    
+
+    //unhide editing buttons if you are looking at your own profile
     if (self.isCurrentUser)
     {
         self.editUserImageButton.hidden = NO;
@@ -201,7 +198,7 @@
     }
     
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_userImageView, _userDescriptionTextView, _editUserDescriptionButton, _editUserImageButton  );
-    //NSDictionary *metrics = @{@"padding":@10.0};
+
     
     
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_userImageView(==128)][_userDescriptionTextView]|" options:kNilOptions metrics:nil views:viewDictionary]];
@@ -264,10 +261,24 @@
         
     }
 
-    
-    
-    
 }
+
+//log off current user and return to login screen
+-(void) logoutButtonPressed:(id)sender
+{
+    [BQUser logOut];
+    
+//    BQUser *test = [BQUser currentUser];
+//    NSLog(@"current user: %@", test);
+    
+    BQLoginViewController *loginVC = [[BQLoginViewController alloc]init];
+
+//    UINavigationController *newNav = [[UINavigationController alloc]initWithRootViewController:loginVC];
+    
+    [self.navigationController pushViewController:loginVC animated:YES]; //FIXME: This takes us back to the login screen, but can't seem to log back in with another user
+}
+
+
 
 #pragma BQImageLibraryCollectionViewController delegate
 
@@ -316,17 +327,6 @@
              }
          }];
         
- 
-        
-
-        
-
-        
-        
-//        UIImage *temp = controller.selectedImage;
-
-//        [newProfileImage save];
-//        
 
     }
 }
