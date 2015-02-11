@@ -13,6 +13,7 @@
 @interface BQAnswerQuestionView () <UITextViewDelegate>
 
 @property (nonatomic, assign) BOOL isAnswering;
+@property (nonatomic, assign) CGFloat originalHeight;
 
 @end
 
@@ -24,10 +25,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.originalHeight = frame.size.height;
         
         self.question = question;
         
-        self.backgroundColor = [UIColor yellowColor];
+        self.userInteractionEnabled = YES;
+
+        self.backgroundColor = [UIColor whiteColor];
         
         self.textView = [UITextView new];
         self.textView.delegate = self;
@@ -50,17 +54,31 @@
         NSString *questionString = [NSString stringWithFormat:@"%@", self.question.questionText];
         self.questionLabel = [[UILabel alloc] init];
         self.questionLabel.text = questionString;
+        self.questionLabel.numberOfLines = 0; // Just let UIKit figure out how many lines we need
+        self.questionLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.questionLabel.textAlignment = NSTextAlignmentCenter;
         
-        
+        self.questionLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.questionLabel];
+        self.textView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.textView];
         
+        self.submitButton.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.submitButton];
+        self.cancelButton.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:self.cancelButton];
+        
+        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_questionLabel, _textView, _submitButton, _cancelButton);
+        NSDictionary *metrics = @{@"padding":@10.0};
+        
+        
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_questionLabel]|" options:NSLayoutFormatAlignAllCenterX metrics:metrics views:viewDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_textView]-padding-|" options:kNilOptions metrics:metrics views:viewDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_cancelButton]-[_submitButton]|" options:NSLayoutFormatAlignAllCenterY metrics:metrics views:viewDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_questionLabel]-[_textView(==50)]-[_submitButton]" options:kNilOptions metrics:metrics views:viewDictionary]];
+
 
         self.isAnswering = NO;
-        
     }
     return self;
 }
@@ -68,7 +86,9 @@
 - (void)didMoveToSuperview
 {
     [super didMoveToSuperview];
-    [self.questionLabel sizeToFit];
+
+    self.questionLabel.preferredMaxLayoutWidth = self.frame.size.width;
+    
 }
 
 //center our question label in the middle of our label view
@@ -77,38 +97,34 @@
     [super layoutSubviews];
     if ( self.isAnswering )
     {
-        float bottommostY = CGRectGetMaxY( self.questionLabel.frame ); // TODO: For now we'll pin our text view to the bottom of our question view... though before
         
         self.textView.hidden = NO;
-        self.textView.frame = CGRectMake(self.bounds.origin.x, bottommostY, self.bounds.size.width, 400.0);
-        // TODO: Is the intention that the text view drops so far below the question label?
-        self.textView.backgroundColor = [UIColor lightGrayColor];
+        self.textView.backgroundColor = [UIColor whiteColor];
+        self.textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        self.textView.layer.borderWidth = 1.0f;
+        self.textView.layer.cornerRadius = 9.0f;
         self.textView.editable = YES;
         self.textView.userInteractionEnabled = YES;
     
-        self.submitButton.hidden = NO; // TODO: These guys are no longer subviews of our text view.
+        self.submitButton.hidden = NO;
         self.cancelButton.hidden = NO;
-        [self.submitButton sizeToFit];
-        [self.cancelButton sizeToFit];
-        
-        self.cancelButton.frame = CGRectMake(
-                                             ( CGRectGetMaxX( self.textView.frame ) - ( self.cancelButton.frame.size.width + self.submitButton.frame.size.width + 50 ) ),
-                                             ( bottommostY + ( self.cancelButton.frame.size.height + 25 ) ),
-                                             self.cancelButton.frame.size.width,
-                                             self.cancelButton.frame.size.height );
-        self.submitButton.frame = CGRectMake(
-                                             ( CGRectGetMaxX( self.textView.frame ) - ( self.submitButton.frame.size.width + 30 )),
-                                             ( bottommostY + ( self.submitButton.frame.size.height + 25 ) ),
-                                             self.submitButton.frame.size.width,
-                                             self.submitButton.frame.size.height );
         self.submitButton.userInteractionEnabled = YES;
         self.cancelButton.userInteractionEnabled = YES;
+
+        // Calculate the height of our UIView so that our buttons can receive presses... if we don't do this the buttons are rendered outside of their parent view and will not receive touches without more work on our part.
+        CGFloat totalHeight = 0.0f;
+        for (UIView *view in self.subviews)
+        {
+            totalHeight = MAX( totalHeight, ( view.frame.origin.y + view.frame.size.height ) );
+        }
+        self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, self.frame.size.width, totalHeight);
     }
     else
     {
         self.textView.hidden = YES;
-        self.submitButton.hidden = YES; // TODO: These guys are no longer subviews of our text view.
+        self.submitButton.hidden = YES;
         self.cancelButton.hidden = YES;
+        self.frame = CGRectMake( self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.originalHeight);
     }
 }
 
@@ -120,16 +136,17 @@
     
     self.submitButton.userInteractionEnabled = YES;
     self.cancelButton.userInteractionEnabled = YES;
+    
+    if ( [self.delegate respondsToSelector:@selector(didBeginAddingAnswer:)] )
+    {
+        [self.delegate didBeginAddingAnswer:self];
+    }
     [self layoutSubviews];
 }
 
 
-//TODO: move this stuff to BQQuestionTableViewController
 - (void)submitButtonPressed:(id)sender
-{
-    
-    NSLog(@"Submit comment!");
-    
+{    
     //need to then refresh the parent view controller
     [self.delegate answerQuestionViewDidAddAnswer:self withAnswer:self.textView.text];
     
@@ -138,15 +155,21 @@
     
     
     self.isAnswering = NO;
+
+    if ( [self.delegate respondsToSelector:@selector(didEndAddingAnswer:)] )
+    {
+        [self.delegate didEndAddingAnswer:self];
+    }
     [self layoutSubviews];
 }
 
 - (void)cancelButtonPressed:(id)sender
 {
-
-    NSLog(@"Cancel comment!");
-
     self.isAnswering = NO;
+    if ( [self.delegate respondsToSelector:@selector(didEndAddingAnswer:)] )
+    {
+        [self.delegate didEndAddingAnswer:self];
+    }
     [self layoutSubviews];
 }
 

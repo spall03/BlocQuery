@@ -15,6 +15,10 @@
 
 - (void) answerQuestionViewDidAddAnswer:(BQAnswerQuestionView*)sender withAnswer:(NSString*)answerText;
 
+@optional
+- (void)didBeginAddingAnswer:(BQAnswerQuestionView*)sender;
+- (void)didEndAddingAnswer:(BQAnswerQuestionView*)sender;
+
 @end
 
 @interface BQAnswerQuestionView : UIView
