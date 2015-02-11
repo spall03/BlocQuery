@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BQUser.h"
+@class BQUser;
 
 @interface BQProfileViewController : UIViewController
 

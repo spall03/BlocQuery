@@ -11,7 +11,8 @@
 @class BQQuestion;
 @class BQAnswer;
 
-static NSString* kBQDidPostNewAnswerToQuestion;
+extern NSString *const kBQDidPostNewAnswerToQuestion;
+extern NSString *const kBQActiveUserDidLogOut;
 
 @interface BQUser : PFUser<PFSubclassing>
 

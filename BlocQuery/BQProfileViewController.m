@@ -141,11 +141,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.userTextIsBeingEdited = NO;
     
-    self.userDescriptionTextView = [[UITextView alloc]init];
+    self.userDescriptionTextView = [[UITextView alloc] init];
     self.userDescriptionTextView.text = @"Loading...";
     
     //set the user image's default and actual values, then pull actual from cloud
-    self.userImageView = [[PFImageView alloc]init];
+    self.userImageView = [[PFImageView alloc] init];
     self.userImageView.image = self.placeholderImage;
 
 
@@ -230,7 +230,7 @@
 {
     
     NSLog(@"Edit image pressed!");
-    BQImageLibraryCollectionViewController *libraryVC = [[BQImageLibraryCollectionViewController alloc]init];
+    BQImageLibraryCollectionViewController *libraryVC = [[BQImageLibraryCollectionViewController alloc] init];
     libraryVC.delegate = self;
     [self.navigationController pushViewController:libraryVC animated:YES];
     
@@ -270,12 +270,8 @@
     
 //    BQUser *test = [BQUser currentUser];
 //    NSLog(@"current user: %@", test);
-    
-    BQLoginViewController *loginVC = [[BQLoginViewController alloc]init];
 
-//    UINavigationController *newNav = [[UINavigationController alloc]initWithRootViewController:loginVC];
-    
-    [self.navigationController pushViewController:loginVC animated:YES]; //FIXME: This takes us back to the login screen, but can't seem to log back in with another user
+    [[NSNotificationCenter defaultCenter] postNotificationName:kBQActiveUserDidLogOut object:nil];
 }
 
 

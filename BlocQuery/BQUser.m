@@ -12,7 +12,8 @@
 #import "BQAnswer.h"
 #import "BQQuestion.h"
 
-static NSString* kBQDidPostNewAnswerToQuestion = @"BQDidPostNewAnswerToQuestion";
+NSString *const kBQDidPostNewAnswerToQuestion = @"BQDidPostNewAnswerToQuestion";
+NSString *const kBQActiveUserDidLogOut = @"BQActiveUserDidLogOut";
 
 @interface BQUser ()
 

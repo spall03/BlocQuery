@@ -32,20 +32,9 @@
     // [Optional] Track statistics around application opens.
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    BQLoginViewController *loginController = [[BQLoginViewController alloc] init];
-    loginController.delegate = self;
+    [self presentLoginScreen];
     
-    BQSignupViewController *signupController = [[BQSignupViewController alloc] init];
-    [signupController setFields:PFSignUpFieldsDefault];
-    [signupController setDelegate:self]; //not sure why it doesn't like this...?
-    
-    [loginController setSignUpController:signupController];
-
-    UINavigationController *navVC = [[UINavigationController alloc] init];
-
-    [navVC setViewControllers:@[loginController]];
-    
-    self.window.rootViewController = navVC;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeUserDidLogOutNotification:) name:kBQActiveUserDidLogOut object:nil];
     
     [self.window makeKeyAndVisible];
     
@@ -97,5 +86,27 @@
     
 }
 
+- (void)activeUserDidLogOutNotification:(NSNotification*)notification
+{
+    [self presentLoginScreen];
+}
+
+- (void)presentLoginScreen
+{
+    BQLoginViewController *loginController = [[BQLoginViewController alloc] init];
+    loginController.delegate = self;
+    
+    BQSignupViewController *signupController = [[BQSignupViewController alloc] init];
+    [signupController setFields:PFSignUpFieldsDefault];
+    [signupController setDelegate:self]; //not sure why it doesn't like this...?
+    
+    [loginController setSignUpController:signupController];
+    
+    UINavigationController *navVC = [[UINavigationController alloc] init];
+    
+    [navVC setViewControllers:@[loginController]];
+    
+    self.window.rootViewController = navVC;
+}
 
 @end
