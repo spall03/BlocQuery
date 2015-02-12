@@ -30,7 +30,7 @@ static NSString* kBQDidPostNewAnswerToQuestion = @"BQDidPostNewAnswerToQuestion"
     
 }
 
-- (PFFile*)setDefaultProfileImage
+- (PFFile*)defaultProfileImage
 {
     
     PFFile *tempImageFile;
@@ -81,7 +81,7 @@ static NSString* kBQDidPostNewAnswerToQuestion = @"BQDidPostNewAnswerToQuestion"
     
     if (self.userImage == nil) //if no user image, set the default
     {
-        [self setDefaultProfileImage];
+        [self defaultProfileImage];
     }
     newAnswer.userImage = self.userImage;
     

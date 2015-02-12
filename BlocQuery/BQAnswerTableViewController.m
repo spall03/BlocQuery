@@ -265,19 +265,32 @@
     //locate answer tapped
     BQAnswer *temp = [self.objects objectAtIndex:indexPath.row];
     
-    //build query for the user who wrote that answer
-    PFQuery *tempQuery = [BQUser query];
-    [tempQuery whereKey:@"username" equalTo:temp.userName];
-    
-    //load query into temporary user
-    BQUser *tempUser = [tempQuery findObjects][0];
-    
-    //create new profile screen for that user
-    BQProfileViewController *newProfileVC = [[BQProfileViewController alloc]initWithUser:tempUser];
-    
-    //go to that screen
-    [self.navigationController pushViewController:newProfileVC animated:YES];
-    
+    if (temp.userName != nil)
+    {
+        //build query for the user who wrote that answer
+        PFQuery *tempQuery = [BQUser query];
+        [tempQuery whereKey:@"username" equalTo:temp.userName];
+        
+        //load query into temporary user
+        BQUser *tempUser = [tempQuery findObjects][0];
+        
+        //create new profile screen for that user
+        BQProfileViewController *newProfileVC = [[BQProfileViewController alloc]initWithUser:tempUser];
+        
+        //go to that screen
+        [self.navigationController pushViewController:newProfileVC animated:YES];
+    }
+    else
+    {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Temporary User" message:@"You selected an answer from a temporary user! Please choose another answer." preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
