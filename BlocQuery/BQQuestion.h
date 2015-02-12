@@ -14,7 +14,8 @@
 
 @interface BQQuestion : PFObject<PFSubclassing>
 
-@property (retain) NSString *user;
+@property (retain) PFFile *userImage;
+@property (retain) NSString *userName;
 @property (retain) NSString *questionText;
 @property (retain) NSArray *answers;
 @property int answerCount; // TODO: Why the answersCount property? Why not just use self.answers.count?

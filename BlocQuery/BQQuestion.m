@@ -15,7 +15,8 @@
 
 @implementation BQQuestion
 
-@dynamic user;
+@dynamic userImage;
+@dynamic userName;
 @dynamic questionText;
 @dynamic answers;
 @dynamic answerCount;

@@ -60,12 +60,19 @@ static NSString* kBQDidPostNewAnswerToQuestion = @"BQDidPostNewAnswerToQuestion"
 {
     BQQuestion* newQuestion = [BQQuestion object];
     
-    newQuestion.user = self.username; //This user asked the question
+    newQuestion.userName = self.username; //This user asked the question
     newQuestion.questionText = question;
     newQuestion.answers = nil; //no answers to the question yet
     newQuestion.answerCount = 0;
     
+    if (self.userImage == nil) //if no user image, set the default
+    {
+        [self defaultProfileImage];
+    }
+    newQuestion.userImage = self.userImage;
+    
     [newQuestion save];
+    
 }
 
 //This user adds a new answer to this question.

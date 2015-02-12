@@ -26,7 +26,7 @@
     {
         self.question = question;
         //display the questioner in the title bar
-        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.user]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
+        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.userName]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
         //             NSString* username = ( !self.question.user ) ? @"A user": self.question.user;
         //             NSString *titleString = [NSString stringWithFormat:@"%@ asks:", username];
         [self setTitle:titleString];
