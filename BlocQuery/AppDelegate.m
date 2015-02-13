@@ -30,7 +30,7 @@
                   clientKey:@"BTu01nl3OsjWFKSFKLJDWp0sHHfkDbQApan7Fg9N"];
     
     // [Optional] Track statistics around application opens.
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    [PFAnalytics trackAppOpenedWithLaunchOptionsInBackground:launchOptions block:nil];
     
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeUserDidLogOutNotification:) name:@"kBQUserDidLogout" object:nil];
