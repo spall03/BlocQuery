@@ -300,7 +300,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return ( self.answerView.frame.size.height + 10 );
+    return self.answerView.bounds.size.height;
 }
 
 #pragma BQAnswerQuestionViewDelegate
@@ -313,7 +313,11 @@
     [[BQUser currentUser] addNewAnswer:answerText toQuestion:self.question];
     
     [self loadObjects];
-    
+}
+
+- (void)didBeginAddingAnswer:(BQAnswerQuestionView*)sender
+{
+    [self.tableView reloadData];
 }
 
 @end

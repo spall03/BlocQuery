@@ -76,8 +76,6 @@
 //attempt to load user data from cloud. if no user data, load defaults from config
 - (void) loadData
 {
-    
-    
     //try to load the user's info from the cloud
     PFQuery *userQuery = [BQUser query];
     [userQuery whereKey:@"username" equalTo:self.user.username];
@@ -141,12 +139,12 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.userTextIsBeingEdited = NO;
     
-    self.userDescriptionTextView = [[UITextView alloc]init];
+    self.userDescriptionTextView = [[UITextView alloc] init];
     self.userDescriptionTextView.text = @"Loading...";
     self.userDescriptionTextView.userInteractionEnabled = NO;
     
     //set the user image's default and actual values, then pull actual from cloud
-    self.userImageView = [[PFImageView alloc]init];
+    self.userImageView = [[PFImageView alloc] init];
     self.userImageView.image = self.placeholderImage;
 
 
@@ -231,7 +229,7 @@
 {
     
     NSLog(@"Edit image pressed!");
-    BQImageLibraryCollectionViewController *libraryVC = [[BQImageLibraryCollectionViewController alloc]init];
+    BQImageLibraryCollectionViewController *libraryVC = [[BQImageLibraryCollectionViewController alloc] init];
     libraryVC.delegate = self;
     [self.navigationController pushViewController:libraryVC animated:YES];
     
@@ -321,8 +319,6 @@
                  NSLog( @"Error: We could not save our new profile image. %@", error );
              }
          }];
-        
-
     }
 }
 
