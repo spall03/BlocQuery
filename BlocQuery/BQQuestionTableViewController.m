@@ -14,6 +14,7 @@
 #import "BQAddQuestionView.h"
 #import "BQProfileViewController.h"
 #import <Parse/Parse.h>
+#import "BQTableCellView.h"
 
 @interface BQQuestionTableViewController () <BQAddQuestionViewDelegate>
 
@@ -147,41 +148,63 @@
  }
  */
 
-
-//Customizes cells to show number of answers to questions
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
 {
-     static NSString *CellIdentifier = @"Cell";
-     
-     PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+     static NSString *CellIdentifier = @"Cell";
+
+     BQTableCellView *cell = (BQTableCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    BQQuestion *temp = (BQQuestion *)object;
+    PFFile *image = temp.userImage;
+    NSString *text = temp.questionText;
+
      if ( cell == nil )
      {
-         cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+         cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+         [cell setCellImage:image cellText:text];
      }
     
     
-     // Configure the cell to show question text and number of answers to question
-//     cell.textLabel.text = [object objectForKey:self.textKey];
-//     cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %@",
-//                                 object[@"answerCount"]];
+    return cell;
     
-    // Configure the cell to show user who asked the question, the question's text, and number of answers to question
-    NSString *textLabelText = [NSString stringWithFormat:@"%@ asks: %@", object[@"userName"], object[@"questionText"]];
-    
-    cell.textLabel.text = textLabelText;
-    
-    NSArray *tempArray = object[@"answers"];
-    int answerCount = tempArray.count;
-    
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %ld", (long)answerCount];
-    
-    cell.imageView.file = object[@"userImage"];
-    
-    
-     return cell;
- }
- 
+}
+
+
+//Customizes cells to show number of answers to questions
+// - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
+//{
+//     static NSString *CellIdentifier = @"Cell";
+//     
+//     PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    
+//     if ( cell == nil )
+//     {
+//         cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//     }
+//    
+//    
+//     // Configure the cell to show question text and number of answers to question
+////     cell.textLabel.text = [object objectForKey:self.textKey];
+////     cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %@",
+////                                 object[@"answerCount"]];
+//    
+//    // Configure the cell to show user who asked the question, the question's text, and number of answers to question
+//    NSString *textLabelText = [NSString stringWithFormat:@"%@ asks: %@", object[@"userName"], object[@"questionText"]];
+//    
+//    cell.textLabel.text = textLabelText;
+//    
+//    NSArray *tempArray = object[@"answers"];
+//    int answerCount = tempArray.count;
+//    
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %ld", (long)answerCount];
+//    
+//    cell.imageView.file = object[@"userImage"];
+//    
+//    
+//     return cell;
+// }
+
 
 /*
  // Override if you need to change the ordering of objects in the table.
