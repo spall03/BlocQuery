@@ -158,11 +158,12 @@
     BQQuestion *temp = (BQQuestion *)object;
     PFFile *image = temp.userImage;
     NSString *text = temp.questionText;
+    NSString *secondaryText = [NSString stringWithFormat:@"Answers: %ld", temp.answers.count];
 
      if ( cell == nil )
      {
          cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-         [cell setCellImage:image cellText:text];
+         [cell setCellImage:image cellText:text cellSecondaryText:secondaryText andVoteButton:NO];
      }
     
     

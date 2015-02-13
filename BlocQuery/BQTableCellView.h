@@ -26,7 +26,8 @@
 
 @property (nonatomic, weak) NSObject <BQTableCellViewDelegate> *delegate;
 
++ (CGFloat)cellHeightForText:(NSString *)text width:(CGFloat)width;
 
-- (void) setCellImage:(PFFile *)image cellText:(NSString *)text;
+- (void) setCellImage:(PFFile *)image cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button;
 
 @end

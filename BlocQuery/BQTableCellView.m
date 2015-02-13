@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) PFImageView *cellImage;
 @property (nonatomic, strong) UILabel *cellText;
+@property (nonatomic, strong) UILabel *cellSecondaryText;
 @property (nonatomic, strong) UIButton *voteButton; //hidden for answer table view cells
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapImage;
@@ -23,6 +24,24 @@
 @implementation BQTableCellView
 
 
++ (CGFloat)cellHeightForText:(NSString *)text width:(CGFloat)width
+{
+    // Make a cell
+    BQTableCellView *layoutCell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"layoutCell"];
+    //[layoutCell setCell]
+    
+    layoutCell.frame = CGRectMake(0, 0, width, CGRectGetHeight(layoutCell.frame));
+    
+    [layoutCell setNeedsLayout];
+    [layoutCell layoutIfNeeded];
+    
+    // Get the actual height required for the media item in the cell
+    return CGRectGetMaxY(layoutCell.contentView.frame);
+    
+    
+    
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -32,6 +51,7 @@
         
         self.cellImage = [[PFImageView alloc]init];
         self.cellText = [[UILabel alloc]init];
+        self.cellSecondaryText = [[UILabel alloc]init];
         self.voteButton = [UIButton buttonWithType:UIButtonTypeSystem];
         
         self.tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageFired:)];
@@ -41,7 +61,7 @@
         self.tapImage.delegate = self;
         self.tapText.delegate = self;
         
-        //set values
+        self.cellImage.frame = CGRectMake(0, 0, 128, 128); //default image size
         [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
         
         //set cell text to wrap
@@ -51,8 +71,10 @@
         //make image and text label touchable and add the recognizers to them
         self.cellImage.userInteractionEnabled = YES;
         self.cellText.userInteractionEnabled = YES;
+        self.cellSecondaryText.userInteractionEnabled = YES;
         [self.cellImage addGestureRecognizer:self.tapImage];
         [self.cellText addGestureRecognizer:self.tapText];
+        [self.cellSecondaryText addGestureRecognizer:self.tapText];
         
         //add subviews
         for (UIView *view in @[self.cellImage, self.cellText, self.voteButton]) {
@@ -61,10 +83,11 @@
         }
         
         //autolayout stuff
-        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_cellImage, _cellText, _voteButton);
+        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_cellImage, _cellText, _cellSecondaryText, _voteButton);
         
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_cellImage][_cellText][_voteButton]|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:viewDictionary]];
-        
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_cellImage]-[_cellText]-[_voteButton]-|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_cellSecondaryText]-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_cellText]-[_cellSecondaryText]-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:viewDictionary]];
     
         
     }
@@ -73,10 +96,16 @@
     return self;
 }
 
-- (void) setCellImage:(PFFile *)image cellText:(NSString *)text
+- (void) setCellImage:(PFFile *)image cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button
 {
     self.cellImage.file = image;
     self.cellText.text = text;
+    self.cellSecondaryText.text = secondaryText;
+    
+    if (button == NO)
+    {
+        self.voteButton.hidden = YES;
+    }
     
     [self.cellImage loadInBackground];
     
