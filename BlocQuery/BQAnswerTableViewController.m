@@ -11,6 +11,7 @@
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
 #import "BQUser.h"
+#import "BQProfileViewController.h"
 
 @interface BQAnswerTableViewController () <BQAnswerQuestionViewDelegate>
 
@@ -25,7 +26,7 @@
     {
         self.question = question;
         //display the questioner in the title bar
-        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.user]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
+        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.userName]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
         //             NSString* username = ( !self.question.user ) ? @"A user": self.question.user;
         //             NSString *titleString = [NSString stringWithFormat:@"%@ asks:", username];
         [self setTitle:titleString];
@@ -56,7 +57,7 @@
         self.textKey = @"answerText";
         
         // Uncomment the following line to specify the key of a PFFile on the PFObject to display in the imageView of the default cell style
-        // self.imageKey = @"image";
+        self.imageKey = @"userImage";
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -174,13 +175,15 @@
     }
     
     
-    // Configure the cell to show answer text and number of votes for answer
-    cell.textLabel.text = [object objectForKey:self.textKey];
+    // Configure the cell to show user who answered, answer text, and number of votes for answer
+    NSString *textLabelText = [NSString stringWithFormat:@"%@ says: %@", object[@"userName"], object[@"answerText"]];
+    
+    cell.textLabel.text = textLabelText;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"Votes: %@",
                                  object[@"votes"]];
     
-    
-    
+    cell.imageView.file = object[@"userImage"];
+
     return cell;
 }
 
@@ -259,7 +262,35 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     
+    //locate answer tapped
+    BQAnswer *temp = [self.objects objectAtIndex:indexPath.row];
     
+    if (temp.userName != nil)
+    {
+        //build query for the user who wrote that answer
+        PFQuery *tempQuery = [BQUser query];
+        [tempQuery whereKey:@"username" equalTo:temp.userName];
+        
+        //load query into temporary user
+        BQUser *tempUser = [tempQuery findObjects][0];
+        
+        //create new profile screen for that user
+        BQProfileViewController *newProfileVC = [[BQProfileViewController alloc]initWithUser:tempUser];
+        
+        //go to that screen
+        [self.navigationController pushViewController:newProfileVC animated:YES];
+    }
+    else
+    {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Temporary User" message:@"You selected an answer from a temporary user! Please choose another answer." preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

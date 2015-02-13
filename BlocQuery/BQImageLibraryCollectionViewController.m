@@ -228,16 +228,11 @@ static NSString * const reuseIdentifier = @"Cell";
     return view;
 }
 
-- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     ALAsset *asset = self.arraysOfAssets[indexPath.section][indexPath.row];
     ALAssetRepresentation *representation = asset.defaultRepresentation;
     CGImageRef imageRef = representation.fullResolutionImage;
-    
-//    UIImage *imageToCrop;
-//    
-//    if (imageRef) {
-//        imageToCrop = [UIImage imageWithCGImage:imageRef scale:representation.scale orientation:(UIImageOrientation)representation.orientation];
-//    }
 
     NSLog(@"image selected!");
     
@@ -248,13 +243,6 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     [self.delegate imageLibraryViewController:self didCompleteWithImage:newProfileImage];
-//    [self.navigationController popToViewController:self.presentingViewController animated:YES];
-
-    
-    //call up cropping interface with the image
-//    BLCCropImageViewController *cropVC = [[BLCCropImageViewController alloc] initWithImage:imageToCrop];
-//    cropVC.delegate = self;
-//    [self.navigationController pushViewController:cropVC animated:YES];
 }
 
 /*

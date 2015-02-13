@@ -29,6 +29,9 @@
     [self.logInView setBackgroundColor:[UIColor whiteColor]];
     [self.logInView setLogo:BQLogo];
     
+    
+    [self.navigationItem setHidesBackButton:YES]; //should hide back button from previous logout
+    
 }
 
 - (void)didReceiveMemoryWarning
