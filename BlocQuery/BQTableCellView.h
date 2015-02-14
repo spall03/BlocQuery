@@ -28,6 +28,6 @@
 
 + (CGFloat)cellHeightForText:(NSString *)text width:(CGFloat)width;
 
-- (void) setCellImage:(PFFile *)image cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button;
+- (void) setCellImage:(PFFile *)image placeholderImage:(UIImage *)placeholderImage cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button;
 
 @end

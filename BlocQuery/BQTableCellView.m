@@ -61,7 +61,6 @@
         self.tapImage.delegate = self;
         self.tapText.delegate = self;
         
-        self.cellImage.frame = CGRectMake(0, 0, 128, 128); //default image size
         [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
         
         //set cell text to wrap
@@ -77,7 +76,7 @@
         [self.cellSecondaryText addGestureRecognizer:self.tapText];
         
         //add subviews
-        for (UIView *view in @[self.cellImage, self.cellText, self.voteButton]) {
+        for (UIView *view in @[self.cellImage, self.cellText, self.cellSecondaryText, self.voteButton]) {
             [self.contentView addSubview:view];
             view.translatesAutoresizingMaskIntoConstraints = NO;
         }
@@ -85,7 +84,7 @@
         //autolayout stuff
         NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_cellImage, _cellText, _cellSecondaryText, _voteButton);
         
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_cellImage]-[_cellText]-[_voteButton]-|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_cellImage(==128)]-[_cellText(<=300)]-[_voteButton]-|" options:NSLayoutFormatAlignAllCenterY metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_cellSecondaryText]-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_cellText]-[_cellSecondaryText]-|" options:NSLayoutFormatAlignAllCenterX metrics:nil views:viewDictionary]];
     
@@ -96,9 +95,13 @@
     return self;
 }
 
-- (void) setCellImage:(PFFile *)image cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button
+- (void) setCellImage:(PFFile *)image placeholderImage:(UIImage *)placeholderImage cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button
 {
     self.cellImage.file = image;
+    self.cellImage.image = placeholderImage;
+    [self.cellImage loadInBackground];
+    
+    
     self.cellText.text = text;
     self.cellSecondaryText.text = secondaryText;
     
@@ -107,7 +110,7 @@
         self.voteButton.hidden = YES;
     }
     
-    [self.cellImage loadInBackground];
+
     
 }
 

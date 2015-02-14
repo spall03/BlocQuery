@@ -19,6 +19,7 @@
 @interface BQQuestionTableViewController () <BQAddQuestionViewDelegate>
 
 @property (nonatomic, strong) BQUser *user;
+@property (nonatomic, strong) UIImage *placeholderImage;
 @property (nonatomic, strong) UIWindow *modalWindow;
 
 @end
@@ -50,6 +51,11 @@
         // The number of objects to show per page
         self.objectsPerPage = 25;
     }
+    
+    PFConfig *config = [PFConfig getConfig];
+    PFFile *tempImageFile = config[@"BQDefaultUserImage"];
+    NSData *tempImageData = [tempImageFile getData];
+    self.placeholderImage = [UIImage imageWithData:tempImageData]; //placeholder image goes in no matter what b/c that's how PFImageView works
     
     return self;
 }
@@ -163,12 +169,20 @@
      if ( cell == nil )
      {
          cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-         [cell setCellImage:image cellText:text cellSecondaryText:secondaryText andVoteButton:NO];
+         [cell setCellImage:image placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:NO];
      }
     
     
     return cell;
     
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    BLCMedia *item = [self items][indexPath.row];
+//    return [BLCMediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
+    
+    return 200.0;
 }
 
 
@@ -271,21 +285,21 @@
 #pragma mark - UITableViewDelegate
 
 //open up a table of answers when a question is selected by the user.
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    
-    //get the question the user tapped
-    BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
-    
-    //create a new answerview container
-    BQAnswerTableViewController *answerViewContainer = [[BQAnswerTableViewController alloc] initWithQuestion:answerviewQuestion];
-    
-    //and push it onto the stack
-    [self.navigationController pushViewController:answerViewContainer animated:YES];
-    
-    
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+//    
+//    //get the question the user tapped
+//    BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
+//    
+//    //create a new answerview container
+//    BQAnswerTableViewController *answerViewContainer = [[BQAnswerTableViewController alloc] initWithQuestion:answerviewQuestion];
+//    
+//    //and push it onto the stack
+//    [self.navigationController pushViewController:answerViewContainer animated:YES];
+//    
+//    
+//}
 
 #pragma - adding new questions
 
