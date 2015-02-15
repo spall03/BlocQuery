@@ -89,6 +89,8 @@
     UIBarButtonItem *profileButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(goToProfile:)];
     [self.navigationItem setLeftBarButtonItem:profileButton];
     
+    [self.tableView registerClass:[BQTableCellView class] forCellReuseIdentifier:@"Cell"];
+    
     //listening for new answers to questions, in order to update the number of answers
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewAnswerToQuestion:) name:@"BQDidPostNewAnswerToQuestion" object:nil];
 }
@@ -159,7 +161,7 @@
     
      static NSString *CellIdentifier = @"Cell";
 
-     BQTableCellView *cell = (BQTableCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     BQTableCellView *cell = (BQTableCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     BQQuestion *temp = (BQQuestion *)object;
     PFFile *image = temp.userImage;
@@ -169,8 +171,10 @@
      if ( cell == nil )
      {
          cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-         [cell setCellImage:image placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:NO];
      }
+    // Configure our cell... when we dequeue our cell we're left with the previous contents, if we re-use one,
+    // so we need to always set up the cell...
+    [cell setCellImage:image placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:NO];
     
     
     return cell;
