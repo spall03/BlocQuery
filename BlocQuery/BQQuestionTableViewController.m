@@ -201,7 +201,7 @@
 //    return [BLCMediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
     
     
-    return 500.0;
+    return 300.0;
 }
 
 

@@ -12,8 +12,11 @@
 #import <Parse/Parse.h>
 #import "BQUser.h"
 #import "BQProfileViewController.h"
+#import "BQTableCellView.h"
 
-@interface BQAnswerTableViewController () <BQAnswerQuestionViewDelegate>
+@interface BQAnswerTableViewController () <BQAnswerQuestionViewDelegate, BQTableCellViewDelegate>
+
+@property (nonatomic, strong) UIImage *placeholderImage;
 
 @end
 
@@ -42,6 +45,12 @@
         [self.view setBackgroundColor:[UIColor whiteColor]];
 
     }
+    
+    PFConfig *config = [PFConfig getConfig];
+    PFFile *tempImageFile = config[@"BQDefaultUserImage"];
+    NSData *tempImageData = [tempImageFile getData];
+    self.placeholderImage = [UIImage imageWithData:tempImageData]; //placeholder image goes in no matter what b/c that's how PFImageView works
+    
     return self;
 }
 
@@ -167,22 +176,28 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    BQTableCellView *cell = (BQTableCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil)
     {
-        cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    BQAnswer *temp = (BQAnswer *)object;
+    PFFile *image = temp.userImage;
+    NSString *userName = temp.userName;
+    NSString *text = temp.answerText;
+    NSString *secondaryText = [NSString stringWithFormat:@"Votes: %d", temp.votes];
     
-    // Configure the cell to show user who answered, answer text, and number of votes for answer
-    NSString *textLabelText = [NSString stringWithFormat:@"%@ says: %@", object[@"userName"], object[@"answerText"]];
+    if ( cell == nil )
+    {
+        cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    // Configure our cell... when we dequeue our cell we're left with the previous contents, if we re-use one,
+    // so we need to always set up the cell...
     
-    cell.textLabel.text = textLabelText;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Votes: %@",
-                                 object[@"votes"]];
-    
-    cell.imageView.file = object[@"userImage"];
+    [cell setCellImage:image cellUserName:userName placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:YES];
+    cell.delegate = self;
 
     return cell;
 }
@@ -259,38 +274,44 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+//    
+//    //locate answer tapped
+//    BQAnswer *temp = [self.objects objectAtIndex:indexPath.row];
+//    
+//    if (temp.userName != nil)
+//    {
+//        //build query for the user who wrote that answer
+//        PFQuery *tempQuery = [BQUser query];
+//        [tempQuery whereKey:@"username" equalTo:temp.userName];
+//        
+//        //load query into temporary user
+//        BQUser *tempUser = [tempQuery findObjects][0];
+//        
+//        //create new profile screen for that user
+//        BQProfileViewController *newProfileVC = [[BQProfileViewController alloc]initWithUser:tempUser];
+//        
+//        //go to that screen
+//        [self.navigationController pushViewController:newProfileVC animated:YES];
+//    }
+//    else
+//    {
+//        
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Temporary User" message:@"You selected an answer from a temporary user! Please choose another answer." preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+//        
+//        [alert addAction:defaultAction];
+//        [self presentViewController:alert animated:YES completion:nil];
+//        
+//    }
+//}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
-    //locate answer tapped
-    BQAnswer *temp = [self.objects objectAtIndex:indexPath.row];
-    
-    if (temp.userName != nil)
-    {
-        //build query for the user who wrote that answer
-        PFQuery *tempQuery = [BQUser query];
-        [tempQuery whereKey:@"username" equalTo:temp.userName];
-        
-        //load query into temporary user
-        BQUser *tempUser = [tempQuery findObjects][0];
-        
-        //create new profile screen for that user
-        BQProfileViewController *newProfileVC = [[BQProfileViewController alloc]initWithUser:tempUser];
-        
-        //go to that screen
-        [self.navigationController pushViewController:newProfileVC animated:YES];
-    }
-    else
-    {
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Temporary User" message:@"You selected an answer from a temporary user! Please choose another answer." preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-        
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
-        
-    }
+    return 300.0;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -301,6 +322,21 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return self.answerView.bounds.size.height;
+}
+
+#pragma BQTableCellViewDelegate
+
+- (void) tableCellViewDidPressProfilePicture:(BQTableCellView *)sender
+{
+    
+    NSLog(@"profile view pressed!");
+    
+    //create new profile screen for that user
+    BQProfileViewController *newProfileVC = [[BQProfileViewController alloc]initWithUser:[sender getUser]];
+
+    //go to that screen
+    [self.navigationController pushViewController:newProfileVC animated:YES];
+    
 }
 
 #pragma BQAnswerQuestionViewDelegate
