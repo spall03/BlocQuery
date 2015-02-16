@@ -9,14 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <ParseUI.h>
 #import <Parse/Parse.h>
+#import "BQUser.h"
 
 @class BQTableCellView;
 
 @protocol BQTableCellViewDelegate <NSObject>
 
+- (void) tableCellViewDidPressProfilePicture:(BQTableCellView*)sender;
+
 @optional
 
-- (void) tableCellViewDidPressProfilePicture:(BQTableCellView*)sender;
 - (void) tableCellViewDidPressTextField:(BQTableCellView*)sender;
 - (void) tableCellViewDidPressVoteButton:(BQTableCellView*)sender;
 
@@ -28,6 +30,8 @@
 
 + (CGFloat)cellHeightForText:(NSString *)text width:(CGFloat)width;
 
-- (void) setCellImage:(PFFile *)image placeholderImage:(UIImage *)placeholderImage cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button;
+- (void) setCellImage:(PFFile *)image cellUserName:(NSString *)name placeholderImage:(UIImage *)placeholderImage cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button;
+- (BQUser *) getUser;
+- (BQQuestion *) getQuestion;
 
 @end

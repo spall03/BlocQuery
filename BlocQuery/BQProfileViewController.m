@@ -63,7 +63,7 @@
 //determine whether this profile belongs to the current user. This will be used to show / hide editing buttons
 - (void) determineUser
 {
-    if (self.user == [BQUser currentUser])
+    if ([self.user.objectId isEqual:[BQUser currentUser].objectId])
     {
         self.isCurrentUser = true;
     }

@@ -16,7 +16,7 @@
 #import <Parse/Parse.h>
 #import "BQTableCellView.h"
 
-@interface BQQuestionTableViewController () <BQAddQuestionViewDelegate>
+@interface BQQuestionTableViewController () <BQAddQuestionViewDelegate, BQTableCellViewDelegate>
 
 @property (nonatomic, strong) BQUser *user;
 @property (nonatomic, strong) UIImage *placeholderImage;
@@ -91,6 +91,9 @@
     
     //listening for new answers to questions, in order to update the number of answers
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewAnswerToQuestion:) name:@"BQDidPostNewAnswerToQuestion" object:nil];
+    
+    [self.tableView registerClass:[BQTableCellView class] forCellReuseIdentifier:@"Cell"];
+    
 }
 
 - (void) didReceiveNewAnswerToQuestion:(NSNotification*)notification
@@ -159,19 +162,30 @@
     
      static NSString *CellIdentifier = @"Cell";
 
-     BQTableCellView *cell = (BQTableCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+     BQTableCellView *cell = (BQTableCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     BQQuestion *temp = (BQQuestion *)object;
     PFFile *image = temp.userImage;
+    NSString *userName = temp.userName;
     NSString *text = temp.questionText;
-    NSString *secondaryText = [NSString stringWithFormat:@"Answers: %ld", temp.answers.count];
+    NSString *secondaryText;
+    
+    if (temp.answers.count != 0)
+    {
+        secondaryText = [NSString stringWithFormat:@"Answers: %ld. Touch here to read!", temp.answers.count];
+    }
+    else
+    {
+        secondaryText = @"No answers yet. Touch here to add one!";
+    }
 
      if ( cell == nil )
      {
          cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-         [cell setCellImage:image placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:NO];
      }
     
+    [cell setCellImage:image cellUserName:userName placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:NO];
+    cell.delegate = self;
     
     return cell;
     
@@ -182,7 +196,8 @@
 //    BLCMedia *item = [self items][indexPath.row];
 //    return [BLCMediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
     
-    return 200.0;
+    
+    return 500.0;
 }
 
 
@@ -366,6 +381,38 @@
     self.modalWindow.hidden = YES;
     
 }
+
+#pragma BQTableCellViewDelegate
+
+//tapping on a user's picture takes you to their profile view
+- (void) tableCellViewDidPressProfilePicture:(BQTableCellView*)sender
+{
+    
+    BQUser *user = [sender getUser];
+    
+    BQProfileViewController *profileViewController = [[BQProfileViewController alloc]initWithUser:user];
+    
+    [self.navigationController pushViewController:profileViewController animated:YES];
+    
+}
+
+- (void) tableCellViewDidPressTextField:(BQTableCellView*)sender
+{
+    
+        //get the question the user tapped
+        BQQuestion *answerviewQuestion = [sender getQuestion];
+    
+        //create a new answerview container
+        BQAnswerTableViewController *answerViewContainer = [[BQAnswerTableViewController alloc] initWithQuestion:answerviewQuestion];
+    
+        //and push it onto the stack
+        [self.navigationController pushViewController:answerViewContainer animated:YES];
+    
+    
+    
+    
+}
+
 
 @end
 
