@@ -31,7 +31,9 @@
 + (CGFloat)cellHeightForText:(NSString *)text width:(CGFloat)width;
 
 - (void) setCellImage:(PFFile *)image cellUserName:(NSString *)name placeholderImage:(UIImage *)placeholderImage cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button;
+
 - (BQUser *) getUser;
 - (BQQuestion *) getQuestion;
+- (BQAnswer *) getAnswer;
 
 @end

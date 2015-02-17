@@ -339,6 +339,44 @@
     
 }
 
+- (void) tableCellViewDidPressVoteButton:(BQTableCellView *)sender
+{
+    
+    BQUser *votingUser = [sender getUser];
+    BQAnswer *answer = [sender getAnswer];
+    
+    
+    
+//    if ([answer[@"voters"] containsObject:votingUser])
+//    {
+//        [answer removeObject:votingUser forKey:@"voters"];
+//        
+//    }
+//    else
+//    {
+//        [answer addUniqueObject:votingUser forKey:@"voters"];
+//        
+//    }
+    
+//    NSMutableArray *array = [answer[@"voters"] mutableCopy];
+//    
+//    //check to see whether this user has already voted on this answer
+//    if ([array containsObject:votingUser]) //if so, remove the user
+//    {
+//        [array removeObject:votingUser];
+//    }
+//    else //if not, add the user
+//    {
+//        [array addObject:votingUser];
+//    }
+//    
+//    NSArray *newVotingUsers = [NSArray arrayWithArray:array];
+//    answer[@"voters"] = newVotingUsers;
+    
+    [answer save];
+    
+}
+
 #pragma BQAnswerQuestionViewDelegate
 
 //reload query table when the user adds a new answer to a question

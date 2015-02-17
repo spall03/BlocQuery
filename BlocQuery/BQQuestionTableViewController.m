@@ -195,14 +195,14 @@
     
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    BLCMedia *item = [self items][indexPath.row];
-//    return [BLCMediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
-    
-    
-    return 300.0;
-}
+//- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+////    BLCMedia *item = [self items][indexPath.row];
+////    return [BLCMediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
+//    BQQuestion *temp = (BQQuestion *)self.objects[indexPath.row];
+//
+//    return [BQTableCellView cellHeightForText:temp.questionText width:CGRectGetWidth(self.view.frame)];
+//}
 
 
 //Customizes cells to show number of answers to questions

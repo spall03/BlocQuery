@@ -18,6 +18,7 @@
 @property (retain) PFFile  *userImage;
 @property (retain) BQQuestion *question;
 @property (retain) NSString *answerText;
+@property (retain) BQUser *voters;
 @property int votes;
 
 +(NSString *)parseClassName;

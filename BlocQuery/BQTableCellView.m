@@ -41,8 +41,15 @@
     [layoutCell layoutIfNeeded];
     
     // Get the actual height required for the media item in the cell
-    return CGRectGetMaxY(layoutCell.contentView.frame);
     
+    if (CGRectGetMaxY(layoutCell.contentView.frame) < 300)
+    {
+        return 300.0;
+    }
+    else
+    {
+        return CGRectGetMaxY(layoutCell.contentView.frame);
+    }
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -102,6 +109,7 @@
     return self;
 }
 
+
 - (void) setCellImage:(PFFile *)image cellUserName:(NSString *)name placeholderImage:(UIImage *)placeholderImage cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button
 {
     self.cellImage.file = image;
@@ -140,8 +148,7 @@
 - (void)voteButtonPressed:(id)sender
 {
     
-    
-    NSLog(@"Button was tapped!");
+    [self.delegate tableCellViewDidPressVoteButton:self];
     
 }
 
@@ -166,6 +173,16 @@
     
     return (BQQuestion *)question[0];
 
+}
+
+- (BQAnswer *)getAnswer
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"BQAnswer"];
+    [query whereKey:@"answerText" equalTo:self.cellText.text];
+    NSArray *question = [query findObjects];
+    
+    return (BQAnswer *)question[0];
+    
 }
 
 
