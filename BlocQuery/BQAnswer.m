@@ -21,7 +21,7 @@
 @dynamic question;
 @dynamic answerText;
 @dynamic votes;
-@dynamic voters;
+@dynamic votingUsers;
 
 + (void)load
 {

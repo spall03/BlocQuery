@@ -187,7 +187,7 @@
     PFFile *image = temp.userImage;
     NSString *userName = temp.userName;
     NSString *text = temp.answerText;
-    NSString *secondaryText = [NSString stringWithFormat:@"Votes: %d", temp.votes];
+    NSString *secondaryText = [NSString stringWithFormat:@"Votes: %lu", (unsigned long)temp.votingUsers.count];
     
     if ( cell == nil )
     {
@@ -342,38 +342,37 @@
 - (void) tableCellViewDidPressVoteButton:(BQTableCellView *)sender
 {
     
-    BQUser *votingUser = [sender getUser];
+    BQUser *votingUser = [BQUser currentUser];
     BQAnswer *answer = [sender getAnswer];
     
+    [votingUser save];
+    [answer save];
     
+    BOOL found = NO;
     
-//    if ([answer[@"voters"] containsObject:votingUser])
-//    {
-//        [answer removeObject:votingUser forKey:@"voters"];
-//        
-//    }
-//    else
-//    {
-//        [answer addUniqueObject:votingUser forKey:@"voters"];
-//        
-//    }
+    for (BQUser *t in answer[@"votingUsers"])
+    {
+        
+        if ([t.objectId isEqualToString:votingUser.objectId])
+        {
+            found = YES;
+        }
+        
+    }
     
-//    NSMutableArray *array = [answer[@"voters"] mutableCopy];
-//    
-//    //check to see whether this user has already voted on this answer
-//    if ([array containsObject:votingUser]) //if so, remove the user
-//    {
-//        [array removeObject:votingUser];
-//    }
-//    else //if not, add the user
-//    {
-//        [array addObject:votingUser];
-//    }
-//    
-//    NSArray *newVotingUsers = [NSArray arrayWithArray:array];
-//    answer[@"voters"] = newVotingUsers;
+    if (found)
+    {
+        [answer removeObject:votingUser forKey:@"votingUsers"];
+    }
+    else
+    {
+        [answer addUniqueObject:votingUser forKey:@"votingUsers"];
+    }
+    
     
     [answer save];
+    
+    [self loadObjects];
     
 }
 
