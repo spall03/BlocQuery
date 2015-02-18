@@ -15,7 +15,7 @@
 @property (nonatomic, strong) UILabel *cellUserName;
 @property (nonatomic, strong) UILabel *cellText;
 @property (nonatomic, strong) UILabel *cellSecondaryText;
-@property (nonatomic, strong) UIButton *voteButton; //hidden for answer table view cells
+
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapImage;
 @property (nonatomic, strong) UITapGestureRecognizer *tapText;
@@ -71,8 +71,6 @@
         
         self.tapImage.delegate = self;
         self.tapText.delegate = self;
-        
-        [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
         
         //set cell text to wrap
         self.cellText.numberOfLines = 0;
@@ -151,6 +149,26 @@
     [self.delegate tableCellViewDidPressVoteButton:self];
     
 }
+
+//- (void)changeVoteButtonText
+//{
+//    
+//    if ([self.voteButton.titleLabel.text  isEqualToString:@"Vote"])
+//    {
+//        
+//        [self.voteButton setTitle:@"Voted" forState:UIControlStateNormal];
+//        [self.voteButton setBackgroundColor:[UIColor lightGrayColor]];
+//        
+//    }
+//    else
+//    {
+//        
+//        [self.voteButton setTitle:@"Vote" forState:UIControlStateNormal];
+//        [self.voteButton setBackgroundColor:[UIColor whiteColor]];
+//    }
+//    
+//    
+//}
 
 //these are ugly hacks, but they work....
 - (BQUser *)getUser

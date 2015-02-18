@@ -163,7 +163,7 @@
      query.cachePolicy = kPFCachePolicyCacheThenNetwork;
      }
  
-    [query orderByDescending:@"createdAt"];
+    [query orderByDescending:@"votes"];
  
  return query;
     
@@ -187,7 +187,7 @@
     PFFile *image = temp.userImage;
     NSString *userName = temp.userName;
     NSString *text = temp.answerText;
-    NSString *secondaryText = [NSString stringWithFormat:@"Votes: %lu", (unsigned long)temp.votingUsers.count];
+    NSString *secondaryText = [NSString stringWithFormat:@"Votes: %d", temp.votes];
     
     if ( cell == nil )
     {
@@ -198,6 +198,23 @@
     
     [cell setCellImage:image cellUserName:userName placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:YES];
     cell.delegate = self;
+    
+    NSString *voteButtonText;
+    UIColor *voteButtonColor;
+    
+    if ([self checkVote:cell])
+    {
+        voteButtonText = @"Voted";
+        voteButtonColor = [UIColor lightGrayColor];
+    }
+    else
+    {
+        voteButtonText = @"Vote";
+        voteButtonColor = [UIColor whiteColor];
+    }
+    
+    [cell.voteButton setTitle:voteButtonText forState:UIControlStateNormal];
+    [cell.voteButton setBackgroundColor:voteButtonColor];
 
     return cell;
 }
@@ -339,11 +356,10 @@
     
 }
 
-- (void) tableCellViewDidPressVoteButton:(BQTableCellView *)sender
+- (BOOL) checkVote:(BQTableCellView *)cell
 {
-    
     BQUser *votingUser = [BQUser currentUser];
-    BQAnswer *answer = [sender getAnswer];
+    BQAnswer *answer = [cell getAnswer];
     
     [votingUser save];
     [answer save];
@@ -360,18 +376,34 @@
         
     }
     
-    if (found)
+    return found;
+    
+}
+
+- (void) tableCellViewDidPressVoteButton:(BQTableCellView *)sender
+{
+    
+    BQUser *votingUser = [BQUser currentUser];
+    BQAnswer *answer = [sender getAnswer];
+    
+    [votingUser save];
+    [answer save];
+    
+    if ([self checkVote:sender])
     {
         [answer removeObject:votingUser forKey:@"votingUsers"];
+        [answer incrementKey:@"votes" byAmount:[NSNumber numberWithInt:-1]]; //decrement vote count
     }
     else
     {
         [answer addUniqueObject:votingUser forKey:@"votingUsers"];
+        [answer incrementKey:@"votes"];
     }
     
     
     [answer save];
     
+//    [sender changeVoteButtonText];
     [self loadObjects];
     
 }

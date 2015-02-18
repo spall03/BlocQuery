@@ -27,10 +27,14 @@
 @interface BQTableCellView : UITableViewCell
 
 @property (nonatomic, weak) NSObject <BQTableCellViewDelegate> *delegate;
+@property (nonatomic, strong) UIButton *voteButton; //hidden for question table view cells
+
 
 + (CGFloat)cellHeightForText:(NSString *)text width:(CGFloat)width;
 
 - (void) setCellImage:(PFFile *)image cellUserName:(NSString *)name placeholderImage:(UIImage *)placeholderImage cellText:(NSString *)text cellSecondaryText:(NSString *)secondaryText andVoteButton:(BOOL)button;
+//- (void) changeVoteButtonText;
+
 
 - (BQUser *) getUser;
 - (BQQuestion *) getQuestion;
