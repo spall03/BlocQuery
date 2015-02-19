@@ -13,9 +13,12 @@
 
 @interface BQAnswer : PFObject<PFSubclassing>
 
-@property (retain) BQUser *user;
+@property (retain) BQUser *user; //deprecated
+@property (retain) NSString *userName;
+@property (retain) PFFile  *userImage;
 @property (retain) BQQuestion *question;
 @property (retain) NSString *answerText;
+@property (retain) NSArray *votingUsers;
 @property int votes;
 
 +(NSString *)parseClassName;

@@ -11,8 +11,12 @@
 #import "PFTableViewCell.h"
 #import <Parse/Parse.h>
 #import "BQUser.h"
+#import "BQProfileViewController.h"
+#import "BQTableCellView.h"
 
-@interface BQAnswerTableViewController () <BQAnswerQuestionViewDelegate>
+@interface BQAnswerTableViewController () <BQAnswerQuestionViewDelegate, BQTableCellViewDelegate>
+
+@property (nonatomic, strong) UIImage *placeholderImage;
 
 @end
 
@@ -25,7 +29,7 @@
     {
         self.question = question;
         //display the questioner in the title bar
-        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.user]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
+        NSString *titleString = [NSString stringWithFormat:@"%@ asks:", self.question.userName]; // TODO: To avoid the awkward-looking "(null) asks" I might check for nil and substitute "A user", like so:
         //             NSString* username = ( !self.question.user ) ? @"A user": self.question.user;
         //             NSString *titleString = [NSString stringWithFormat:@"%@ asks:", username];
         [self setTitle:titleString];
@@ -41,6 +45,12 @@
         [self.view setBackgroundColor:[UIColor whiteColor]];
 
     }
+    
+    PFConfig *config = [PFConfig getConfig];
+    PFFile *tempImageFile = config[@"BQDefaultUserImage"];
+    NSData *tempImageData = [tempImageFile getData];
+    self.placeholderImage = [UIImage imageWithData:tempImageData]; //placeholder image goes in no matter what b/c that's how PFImageView works
+    
     return self;
 }
 
@@ -56,7 +66,7 @@
         self.textKey = @"answerText";
         
         // Uncomment the following line to specify the key of a PFFile on the PFObject to display in the imageView of the default cell style
-        // self.imageKey = @"image";
+        self.imageKey = @"userImage";
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -153,7 +163,7 @@
      query.cachePolicy = kPFCachePolicyCacheThenNetwork;
      }
  
-    [query orderByDescending:@"createdAt"];
+    [query orderByDescending:@"votes"];
  
  return query;
     
@@ -166,21 +176,46 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    BQTableCellView *cell = (BQTableCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil)
     {
-        cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    BQAnswer *temp = (BQAnswer *)object;
+    PFFile *image = temp.userImage;
+    NSString *userName = temp.userName;
+    NSString *text = temp.answerText;
+    NSString *secondaryText = [NSString stringWithFormat:@"Votes: %d", temp.votes];
     
-    // Configure the cell to show answer text and number of votes for answer
-    cell.textLabel.text = [object objectForKey:self.textKey];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Votes: %@",
-                                 object[@"votes"]];
+    if ( cell == nil )
+    {
+        cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    // Configure our cell... when we dequeue our cell we're left with the previous contents, if we re-use one,
+    // so we need to always set up the cell...
     
+    [cell setCellImage:image cellUserName:userName placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:YES];
+    cell.delegate = self;
     
+    NSString *voteButtonText;
+    UIColor *voteButtonColor;
     
+    if ([self checkVote:cell])
+    {
+        voteButtonText = @"Voted";
+        voteButtonColor = [UIColor lightGrayColor];
+    }
+    else
+    {
+        voteButtonText = @"Vote";
+        voteButtonColor = [UIColor whiteColor];
+    }
+    
+    [cell.voteButton setTitle:voteButtonText forState:UIControlStateNormal];
+    [cell.voteButton setBackgroundColor:voteButtonColor];
+
     return cell;
 }
 
@@ -256,10 +291,44 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+//    
+//    //locate answer tapped
+//    BQAnswer *temp = [self.objects objectAtIndex:indexPath.row];
+//    
+//    if (temp.userName != nil)
+//    {
+//        //build query for the user who wrote that answer
+//        PFQuery *tempQuery = [BQUser query];
+//        [tempQuery whereKey:@"username" equalTo:temp.userName];
+//        
+//        //load query into temporary user
+//        BQUser *tempUser = [tempQuery findObjects][0];
+//        
+//        //create new profile screen for that user
+//        BQProfileViewController *newProfileVC = [[BQProfileViewController alloc]initWithUser:tempUser];
+//        
+//        //go to that screen
+//        [self.navigationController pushViewController:newProfileVC animated:YES];
+//    }
+//    else
+//    {
+//        
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Temporary User" message:@"You selected an answer from a temporary user! Please choose another answer." preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+//        
+//        [alert addAction:defaultAction];
+//        [self presentViewController:alert animated:YES completion:nil];
+//        
+//    }
+//}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
-    
+    return 300.0;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -270,6 +339,73 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return self.answerView.bounds.size.height;
+}
+
+#pragma BQTableCellViewDelegate
+
+- (void) tableCellViewDidPressProfilePicture:(BQTableCellView *)sender
+{
+    
+    NSLog(@"profile view pressed!");
+    
+    //create new profile screen for that user
+    BQProfileViewController *newProfileVC = [[BQProfileViewController alloc]initWithUser:[sender getUser]];
+
+    //go to that screen
+    [self.navigationController pushViewController:newProfileVC animated:YES];
+    
+}
+
+- (BOOL) checkVote:(BQTableCellView *)cell
+{
+    BQUser *votingUser = [BQUser currentUser];
+    BQAnswer *answer = [cell getAnswer];
+    
+    [votingUser save];
+    [answer save];
+    
+    BOOL found = NO;
+    
+    for (BQUser *t in answer[@"votingUsers"])
+    {
+        
+        if ([t.objectId isEqualToString:votingUser.objectId])
+        {
+            found = YES;
+        }
+        
+    }
+    
+    return found;
+    
+}
+
+- (void) tableCellViewDidPressVoteButton:(BQTableCellView *)sender
+{
+    
+    BQUser *votingUser = [BQUser currentUser];
+    BQAnswer *answer = [sender getAnswer];
+    
+    [votingUser save];
+    [answer save];
+    
+    if ([self checkVote:sender])
+    {
+        [answer removeObject:votingUser forKey:@"votingUsers"];
+        [answer incrementKey:@"votes" byAmount:[NSNumber numberWithInt:-1]]; //decrement vote count
+    }
+    else
+    {
+        [answer addUniqueObject:votingUser forKey:@"votingUsers"];
+        [answer incrementKey:@"votes"];
+    }
+    
+    
+    [answer save];
+    
+//    [sender changeVoteButtonText];
+    [self loadObjects];
+    
 }
 
 #pragma BQAnswerQuestionViewDelegate

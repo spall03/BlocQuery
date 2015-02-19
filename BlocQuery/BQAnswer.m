@@ -16,9 +16,12 @@
 @implementation BQAnswer
 
 @dynamic user;
+@dynamic userName;
+@dynamic userImage;
 @dynamic question;
 @dynamic answerText;
 @dynamic votes;
+@dynamic votingUsers;
 
 + (void)load
 {

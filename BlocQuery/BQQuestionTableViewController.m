@@ -14,10 +14,12 @@
 #import "BQAddQuestionView.h"
 #import "BQProfileViewController.h"
 #import <Parse/Parse.h>
+#import "BQTableCellView.h"
 
-@interface BQQuestionTableViewController () <BQAddQuestionViewDelegate>
+@interface BQQuestionTableViewController () <BQAddQuestionViewDelegate, BQTableCellViewDelegate>
 
 @property (nonatomic, strong) BQUser *user;
+@property (nonatomic, strong) UIImage *placeholderImage;
 @property (nonatomic, strong) UIWindow *modalWindow;
 
 @end
@@ -38,7 +40,7 @@
         self.textKey = @"questionText";
         
         // Uncomment the following line to specify the key of a PFFile on the PFObject to display in the imageView of the default cell style
-        // self.imageKey = @"image";
+        self.imageKey = @"userImage";
         
         // Whether the built-in pull-to-refresh is enabled
         self.pullToRefreshEnabled = YES;
@@ -49,6 +51,11 @@
         // The number of objects to show per page
         self.objectsPerPage = 25;
     }
+    
+    PFConfig *config = [PFConfig getConfig];
+    PFFile *tempImageFile = config[@"BQDefaultUserImage"];
+    NSData *tempImageData = [tempImageFile getData];
+    self.placeholderImage = [UIImage imageWithData:tempImageData]; //placeholder image goes in no matter what b/c that's how PFImageView works
     
     return self;
 }
@@ -82,8 +89,13 @@
     UIBarButtonItem *profileButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(goToProfile:)];
     [self.navigationItem setLeftBarButtonItem:profileButton];
     
+    [self.tableView registerClass:[BQTableCellView class] forCellReuseIdentifier:@"Cell"];
+    
     //listening for new answers to questions, in order to update the number of answers
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNewAnswerToQuestion:) name:@"BQDidPostNewAnswerToQuestion" object:nil];
+    
+    [self.tableView registerClass:[BQTableCellView class] forCellReuseIdentifier:@"Cell"];
+    
 }
 
 - (void) didReceiveNewAnswerToQuestion:(NSNotification*)notification
@@ -147,28 +159,86 @@
  }
  */
 
-
-//Customizes cells to show number of answers to questions
- - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
 {
-     static NSString *CellIdentifier = @"Cell";
-     
-     PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+     static NSString *CellIdentifier = @"Cell";
+
+     BQTableCellView *cell = (BQTableCellView *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    BQQuestion *temp = (BQQuestion *)object;
+    PFFile *image = temp.userImage;
+    NSString *userName = temp.userName;
+    NSString *text = temp.questionText;
+    NSString *secondaryText;
+    
+    if (temp.answers.count != 0)
+    {
+        secondaryText = [NSString stringWithFormat:@"Answers: %ld. Touch here to read!", temp.answers.count];
+    }
+    else
+    {
+        secondaryText = @"No answers yet. Touch here to add one!";
+    }
+
      if ( cell == nil )
      {
-         cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+         cell = [[BQTableCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
      }
+    // Configure our cell... when we dequeue our cell we're left with the previous contents, if we re-use one,
+    // so we need to always set up the cell...
     
+    [cell setCellImage:image cellUserName:userName placeholderImage:self.placeholderImage cellText:text cellSecondaryText:secondaryText andVoteButton:NO];
+    cell.delegate = self;
     
-     // Configure the cell to show question text and number of answers to question
-     cell.textLabel.text = [object objectForKey:self.textKey];
-     cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %@",
-                                 object[@"answerCount"]];
+    return cell;
     
-     return cell;
- }
- 
+}
+
+//- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+////    BLCMedia *item = [self items][indexPath.row];
+////    return [BLCMediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
+//    BQQuestion *temp = (BQQuestion *)self.objects[indexPath.row];
+//
+//    return [BQTableCellView cellHeightForText:temp.questionText width:CGRectGetWidth(self.view.frame)];
+//}
+
+
+//Customizes cells to show number of answers to questions
+// - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object
+//{
+//     static NSString *CellIdentifier = @"Cell";
+//     
+//     PFTableViewCell *cell = (PFTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    
+//     if ( cell == nil )
+//     {
+//         cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//     }
+//    
+//    
+//     // Configure the cell to show question text and number of answers to question
+////     cell.textLabel.text = [object objectForKey:self.textKey];
+////     cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %@",
+////                                 object[@"answerCount"]];
+//    
+//    // Configure the cell to show user who asked the question, the question's text, and number of answers to question
+//    NSString *textLabelText = [NSString stringWithFormat:@"%@ asks: %@", object[@"userName"], object[@"questionText"]];
+//    
+//    cell.textLabel.text = textLabelText;
+//    
+//    NSArray *tempArray = object[@"answers"];
+//    int answerCount = tempArray.count;
+//    
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"Answers: %ld", (long)answerCount];
+//    
+//    cell.imageView.file = object[@"userImage"];
+//    
+//    
+//     return cell;
+// }
+
 
 /*
  // Override if you need to change the ordering of objects in the table.
@@ -234,21 +304,21 @@
 #pragma mark - UITableViewDelegate
 
 //open up a table of answers when a question is selected by the user.
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
-    
-    //get the question the user tapped
-    BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
-    
-    //create a new answerview container
-    BQAnswerTableViewController *answerViewContainer = [[BQAnswerTableViewController alloc] initWithQuestion:answerviewQuestion];
-    
-    //and push it onto the stack
-    [self.navigationController pushViewController:answerViewContainer animated:YES];
-    
-    
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+//    
+//    //get the question the user tapped
+//    BQQuestion *answerviewQuestion = (BQQuestion*)[self objectAtIndexPath:indexPath];
+//    
+//    //create a new answerview container
+//    BQAnswerTableViewController *answerViewContainer = [[BQAnswerTableViewController alloc] initWithQuestion:answerviewQuestion];
+//    
+//    //and push it onto the stack
+//    [self.navigationController pushViewController:answerViewContainer animated:YES];
+//    
+//    
+//}
 
 #pragma - adding new questions
 
@@ -315,6 +385,38 @@
     self.modalWindow.hidden = YES;
     
 }
+
+#pragma BQTableCellViewDelegate
+
+//tapping on a user's picture takes you to their profile view
+- (void) tableCellViewDidPressProfilePicture:(BQTableCellView*)sender
+{
+    
+    BQUser *user = [sender getUser];
+    
+    BQProfileViewController *profileViewController = [[BQProfileViewController alloc]initWithUser:user];
+    
+    [self.navigationController pushViewController:profileViewController animated:YES];
+    
+}
+
+- (void) tableCellViewDidPressTextField:(BQTableCellView*)sender
+{
+    
+        //get the question the user tapped
+        BQQuestion *answerviewQuestion = [sender getQuestion];
+    
+        //create a new answerview container
+        BQAnswerTableViewController *answerViewContainer = [[BQAnswerTableViewController alloc] initWithQuestion:answerviewQuestion];
+    
+        //and push it onto the stack
+        [self.navigationController pushViewController:answerViewContainer animated:YES];
+    
+    
+    
+    
+}
+
 
 @end
 

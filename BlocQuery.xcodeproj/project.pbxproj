@@ -38,6 +38,7 @@
 		C6D142651A674BED00AF2E05 /* signup.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D142641A674BED00AF2E05 /* signup.png */; };
 		C6D142681A68680100AF2E05 /* BQQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D142671A68680100AF2E05 /* BQQuestion.m */; };
 		C6D1426B1A686D8600AF2E05 /* BQAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D1426A1A686D8600AF2E05 /* BQAnswer.m */; };
+		C6D1E6321A8E936500668092 /* BQTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D1E6311A8E936500668092 /* BQTableCellView.m */; };
 		C6D671351A6F2E1C00446B34 /* BQQuestionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */; };
 		C6D6713B1A70845500446B34 /* BQAnswerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D6713A1A70845500446B34 /* BQAnswerTableViewController.m */; };
 /* End PBXBuildFile section */
@@ -101,6 +102,8 @@
 		C6D142671A68680100AF2E05 /* BQQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQQuestion.m; sourceTree = "<group>"; };
 		C6D142691A686D8600AF2E05 /* BQAnswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAnswer.h; sourceTree = "<group>"; };
 		C6D1426A1A686D8600AF2E05 /* BQAnswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQAnswer.m; sourceTree = "<group>"; };
+		C6D1E6301A8E936500668092 /* BQTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQTableCellView.h; sourceTree = "<group>"; };
+		C6D1E6311A8E936500668092 /* BQTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQTableCellView.m; sourceTree = "<group>"; };
 		C6D671331A6F2E1C00446B34 /* BQQuestionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQQuestionTableViewController.h; sourceTree = "<group>"; };
 		C6D671341A6F2E1C00446B34 /* BQQuestionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BQQuestionTableViewController.m; sourceTree = "<group>"; };
 		C6D671391A70845500446B34 /* BQAnswerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BQAnswerTableViewController.h; sourceTree = "<group>"; };
@@ -153,6 +156,8 @@
 				C611C2E11A783625006A67E2 /* BQAnswerQuestionView.m */,
 				C611C2E91A7C19B6006A67E2 /* BQAddQuestionView.h */,
 				C611C2EA1A7C19B6006A67E2 /* BQAddQuestionView.m */,
+				C6D1E6301A8E936500668092 /* BQTableCellView.h */,
+				C6D1E6311A8E936500668092 /* BQTableCellView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -420,6 +425,7 @@
 				C6D142631A67467200AF2E05 /* BQSignupViewController.m in Sources */,
 				C6C1AEDB1A8961F1006FF6E6 /* BQImageLibraryCollectionViewController.m in Sources */,
 				C611C2F11A817E75006A67E2 /* BQProfileViewController.m in Sources */,
+				C6D1E6321A8E936500668092 /* BQTableCellView.m in Sources */,
 				C6D671351A6F2E1C00446B34 /* BQQuestionTableViewController.m in Sources */,
 				C68E3B851A65C57500D0D4B5 /* BQUser.m in Sources */,
 				C6C1A2A81A647A2E0094AF29 /* AppDelegate.m in Sources */,
